@@ -22,6 +22,7 @@ from sqlalchemy import (
     SmallInteger,
     String,
     Text,
+    UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -81,6 +82,11 @@ class QuizAttempt(Base):
     """Ответ пользователя на один вопрос."""
 
     __tablename__ = "quiz_attempts"
+    __table_args__ = (
+        # На один вопрос в одной игре можно ответить только один раз. Это защита от двойного
+        # нажатия на кнопку: даже если два апдейта пройдут одновременно, второй INSERT упадёт.
+        UniqueConstraint("session_id", "question_id", name="uq_quiz_attempts_session_question"),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     session_id: Mapped[int] = mapped_column(

@@ -15,3 +15,9 @@ class MenuCB(CallbackData, prefix="menu"):
 class SettingsCB(CallbackData, prefix="set"):
     action: str  # notify, category, set_category, reset, reset_yes, help
     value: str = ""
+
+
+class QuizCB(CallbackData, prefix="quiz"):
+    action: str  # cat (выбор категории), ans (ответ), next (дальше), again (играть ещё)
+    value: str = ""  # категория или номер выбранного варианта
+    q: int = 0  # номер вопроса в игре: так отсекаются нажатия на кнопки старых вопросов

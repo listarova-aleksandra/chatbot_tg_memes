@@ -3,6 +3,7 @@
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from app.database.base import utcnow
 from app.database.models import (
     Achievement,
     Meme,
@@ -77,22 +78,23 @@ async def test_profile_stats_for_new_user_are_zero(session: AsyncSession) -> Non
 
 
 async def _add_game(session: AsyncSession, user: User, answers: list[bool]) -> None:
-    question = QuizQuestion(
-        slug=f"q{user.id}-{id(answers)}", question="?", category="nba",
-        correct_answer="a", wrong_answers=["b", "c", "d"], explanation="e",
-    )
+    """Создаёт завершённую игру: на каждый ответ свой вопрос (на один вопрос в игре один ответ)."""
     quiz = QuizSession(user_id=user.id, category="nba", total_questions=len(answers))
-    session.add_all([question, quiz])
+    session.add(quiz)
     await session.flush()
-    for ok in answers:
+    for number, ok in enumerate(answers):
+        question = QuizQuestion(
+            slug=f"q{quiz.id}-{number}", question="?", category="nba",
+            correct_answer="a", wrong_answers=["b", "c", "d"], explanation="e",
+        )
+        session.add(question)
+        await session.flush()
         session.add(
             QuizAttempt(
                 session_id=quiz.id, user_id=user.id, question_id=question.id,
                 selected_answer="a", is_correct=ok,
             )
         )
-    from app.database.base import utcnow
-
     quiz.finished_at = utcnow()
     await session.flush()
 

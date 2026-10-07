@@ -21,6 +21,7 @@ from app.bot.commands import set_bot_commands
 from app.bot.dispatcher import build_dispatcher
 from app.core.config import get_settings
 from app.core.logging import setup_logging
+from app.database.seed import seed_questions
 from app.database.session import create_engine, create_session_factory
 
 logger = logging.getLogger(__name__)
@@ -43,6 +44,17 @@ async def main() -> None:
         logger.exception(
             "Не удалось подключиться к БД. Запущен ли PostgreSQL и верен ли DATABASE_URL?"
         )
+        await engine.dispose()
+        sys.exit(1)
+
+    # Вопросы викторины хранятся в app/content/questions.json и загружаются в БД при старте
+    # (повторная загрузка безопасна: вопрос определяется по slug).
+    try:
+        async with session_factory() as session:
+            await seed_questions(session)
+            await session.commit()
+    except Exception:
+        logger.exception("Не удалось загрузить вопросы. Применены ли миграции (alembic upgrade head)?")
         await engine.dispose()
         sys.exit(1)
 
