@@ -1,0 +1,28 @@
+# Секреты — никогда не коммитим
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Тесты и инструменты
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Локальные БД и логи
+*.sqlite3
+*.db
+*.log
+
+# IDE / ОС
+.idea/
+.vscode/
+.DS_Store
