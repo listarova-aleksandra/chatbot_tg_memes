@@ -10,7 +10,9 @@ logger = logging.getLogger(__name__)
 COMMANDS = [
     BotCommand(command="start", description="Начать"),
     BotCommand(command="menu", description="Главное меню"),
+    BotCommand(command="play", description="Играть в викторину"),
     BotCommand(command="profile", description="Мой профиль"),
+    BotCommand(command="history", description="История игр"),
     BotCommand(command="settings", description="Настройки"),
     BotCommand(command="help", description="Помощь"),
     BotCommand(command="cancel", description="Отменить действие"),
@@ -20,6 +22,6 @@ COMMANDS = [
 async def set_bot_commands(bot: Bot) -> None:
     try:
         await bot.set_my_commands(COMMANDS)
-    except Exception:
+    except Exception as error:
         # Меню команд это украшение, бот должен работать и без него.
-        logger.warning("Не удалось установить список команд", exc_info=True)
+        logger.warning("Не удалось установить список команд: %s", type(error).__name__)

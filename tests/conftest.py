@@ -14,7 +14,14 @@ from typing import Any
 import pytest
 from aiogram import Bot
 from aiogram.client.session.base import BaseSession
-from aiogram.methods import AnswerCallbackQuery, EditMessageText, SendMessage
+from aiogram.exceptions import TelegramBadRequest
+from aiogram.methods import (
+    AnswerCallbackQuery,
+    EditMessageCaption,
+    EditMessageText,
+    SendMessage,
+    SendPhoto,
+)
 from aiogram.types import Chat, Message
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
@@ -58,6 +65,7 @@ class FakeTelegramSession(BaseSession):
     def __init__(self) -> None:
         super().__init__()
         self.calls: list[Any] = []
+        self.fail_photos = False  # True: Telegram «не смог загрузить картинку по URL»
 
     async def close(self) -> None:
         pass
@@ -68,12 +76,14 @@ class FakeTelegramSession(BaseSession):
 
     async def make_request(self, bot: Bot, method: Any, timeout: Any = None) -> Any:
         self.calls.append(method)
-        if isinstance(method, SendMessage | EditMessageText):
+        if isinstance(method, SendPhoto) and self.fail_photos:
+            raise TelegramBadRequest(method=method, message="Bad Request: wrong file identifier/HTTP URL")
+        if isinstance(method, SendMessage | EditMessageText | SendPhoto | EditMessageCaption):
             return Message(
                 message_id=len(self.calls) + 1000,
                 date=datetime.now(),
                 chat=Chat(id=1, type="private"),
-                text=getattr(method, "text", None),
+                text=getattr(method, "text", None) or getattr(method, "caption", None),
             )
         if isinstance(method, AnswerCallbackQuery):
             return True
@@ -103,11 +113,11 @@ def make_dispatcher(settings: Settings, session_factory: async_sessionmaker[Asyn
     import importlib
 
     from app.bot import dispatcher as dispatcher_module
-    from app.bot.handlers import common, errors, profile
+    from app.bot.handlers import common, errors, profile, quiz
     from app.bot.handlers import settings as settings_handlers
 
     def factory():
-        for module in (errors, common, profile, settings_handlers):
+        for module in (errors, common, profile, quiz, settings_handlers):
             importlib.reload(module)
         return dispatcher_module.build_dispatcher(settings, session_factory)
 

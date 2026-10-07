@@ -22,3 +22,12 @@ def main_menu_kb() -> InlineKeyboardMarkup:
 
 def back_to_menu_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[[_button("⬅️ В меню", "main")]])
+
+
+def profile_kb() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [_button("📜 История игр", "history")],
+            [_button("⬅️ В меню", "main")],
+        ]
+    )

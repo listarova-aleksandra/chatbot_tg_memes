@@ -11,6 +11,14 @@ import math
 
 XP_PER_LEVEL_FACTOR = 50
 
+# ---------- Правила начисления XP за викторину (всё в одном месте) ----------
+QUESTIONS_PER_GAME = 5
+XP_CORRECT = 10  # за любой правильный ответ
+XP_DIFFICULTY_BONUS = {1: 0, 2: 2, 3: 5}  # надбавка за средний и сложный вопрос
+STREAK_BONUS_FROM = 3  # с третьего правильного ответа подряд...
+XP_STREAK_BONUS = 5  # ...добавляется бонус за каждый такой ответ
+XP_PERFECT_GAME = 20  # бонус за игру без единой ошибки
+
 
 def level_for_xp(xp: int) -> int:
     """Уровень по количеству XP: floor(sqrt(xp / 50)) + 1.
@@ -30,3 +38,16 @@ def level_progress(xp: int) -> tuple[int, int]:
     level = level_for_xp(xp)
     start = xp_for_level(level)
     return max(xp, 0) - start, xp_for_level(level + 1) - start
+
+
+def answer_xp(difficulty: int, streak_after: int) -> int:
+    """XP за ПРАВИЛЬНЫЙ ответ.
+
+    difficulty:   сложность вопроса 1..3
+    streak_after: длина серии правильных ответов подряд, включая этот ответ
+    Пример: сложный вопрос (+5) при серии из 3 ответов: 10 + 5 + 5 = 20 XP.
+    """
+    xp = XP_CORRECT + XP_DIFFICULTY_BONUS.get(difficulty, 0)
+    if streak_after >= STREAK_BONUS_FROM:
+        xp += XP_STREAK_BONUS
+    return xp
