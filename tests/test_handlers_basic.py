@@ -15,34 +15,7 @@ from app.bot.callbacks import MenuCB, SettingsCB
 from app.core.config import Settings
 from app.database.models import User
 from tests.conftest import FakeTelegramSession
-
-FROM = {"id": 42, "is_bot": False, "first_name": "Аня", "username": "anya"}
-CHAT = {"id": 42, "type": "private"}
-
-
-def message_update(text: str, update_id: int = 1) -> dict[str, Any]:
-    update: dict[str, Any] = {
-        "update_id": update_id,
-        "message": {"message_id": 1, "date": 0, "chat": CHAT, "from": FROM, "text": text},
-    }
-    if text.startswith("/"):
-        length = len(text.split()[0])
-        update["message"]["entities"] = [{"type": "bot_command", "offset": 0, "length": length}]
-    return update
-
-
-def callback_update(data: str, update_id: int = 2) -> dict[str, Any]:
-    return {
-        "update_id": update_id,
-        "callback_query": {
-            "id": str(update_id),
-            "from": FROM,
-            "chat_instance": "ci",
-            "data": data,
-            "message": {"message_id": 7, "date": 0, "chat": CHAT, "from": {**FROM, "is_bot": True}, "text": "menu"},
-        },
-    }
-
+from tests.updates import FROM, callback_update, message_update
 
 async def test_start_registers_user_and_shows_menu(
     bot: Bot, telegram: FakeTelegramSession, settings: Settings,
@@ -154,7 +127,7 @@ async def test_stub_section_answers_with_alert(
     session_factory: async_sessionmaker[AsyncSession], make_dispatcher: Any,
 ) -> None:
     dp = make_dispatcher()
-    await dp.feed_raw_update(bot, callback_update(MenuCB(action="play").pack()))
+    await dp.feed_raw_update(bot, callback_update(MenuCB(action="meme").pack()))
     answer = telegram.of_type(AnswerCallbackQuery)[-1]
     assert answer.show_alert is True and "следующем этапе" in answer.text
 
