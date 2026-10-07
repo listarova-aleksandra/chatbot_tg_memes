@@ -212,3 +212,13 @@ class QuizService:
             GameHistoryItem(g.category, g.correct_count, g.total_questions, g.xp_earned, g.started_at)
             for g in rows
         ]
+
+    async def random_fact(self) -> QuizQuestion | None:
+        """Случайный локальный вопрос: его объяснение показывается как «факт дня»,
+        когда Reddit недоступен."""
+        return await self.session.scalar(
+            select(QuizQuestion)
+            .where(QuizQuestion.is_active.is_(True), QuizQuestion.source == "local")
+            .order_by(func.random())
+            .limit(1)
+        )

@@ -6,7 +6,8 @@
 
 from html import escape
 
-from app.database.models import QuizCategory, User
+from app.database.models import QuizCategory, QuizQuestion, User
+from app.services.reddit_service import RedditMeme
 from app.services.user_service import ProfileStats
 from app.services.xp import level_progress
 
@@ -19,6 +20,8 @@ CATEGORY_LABELS: dict[str, str] = {
     QuizCategory.INTERNET: "🌐 Интернет-культура",
     QuizCategory.MIXED: "🎲 Смешанная",
 }
+
+GIF_UNAVAILABLE = "🎞 GIF-сервис временно не отвечает. Продолжаем без него."
 
 MAIN_MENU = "📋 <b>Главное меню</b>\nВыбирай, чем займёмся 👇"
 
@@ -33,6 +36,7 @@ HELP = (
     "/start — начать и открыть меню\n"
     "/menu — главное меню\n"
     "/play — сыграть в викторину\n"
+    "/daily — мем дня\n"
     "/profile — твой профиль\n"
     "/history — история игр\n"
     "/settings — настройки\n"
@@ -105,3 +109,30 @@ RESET_CONFIRM = (
 )
 
 RESET_DONE = "✅ Прогресс сброшен. Начинаем с чистого листа!"
+
+
+DAILY_TITLE = "📅 <b>Мем дня</b>"
+
+
+def format_daily(meme: RedditMeme) -> str:
+    title = escape(meme.title[:200])
+    return f"{DAILY_TITLE} · r/{escape(meme.subreddit)}\n\n{title}\n\n👍 {meme.score}"
+
+
+_DAILY_FALLBACK_REASON = {
+    "disabled": "Раздел пока не настроен (нет ключей Reddit).",
+    "unavailable": "Reddit временно не отвечает. Продолжаем без него.",
+    "empty": "Сегодня подходящих мемов не нашлось: мы показываем только безопасные посты.",
+}
+
+
+def format_daily_fallback(status: str, fact: QuizQuestion | None) -> str:
+    """Запасной экран «Мема дня»: причина и факт из локальной базы вместо мема."""
+    text = f"{DAILY_TITLE}\n\n{_DAILY_FALLBACK_REASON.get(status, _DAILY_FALLBACK_REASON['unavailable'])}"
+    if fact is not None:
+        text += (
+            "\n\nВместо мема держи факт из мем-культуры:\n"
+            f"❓ {escape(fact.question)}\n"
+            f"💡 <b>{escape(fact.correct_answer)}.</b> {escape(fact.explanation)}"
+        )
+    return text

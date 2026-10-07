@@ -8,13 +8,13 @@
 """
 
 import logging
+from html import escape
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 
 logger = logging.getLogger(__name__)
 
-PHOTO_FAILED_NOTE = "🖼 (картинка не загрузилась, играем без неё)\n\n"
 
 
 async def _send(
@@ -27,7 +27,8 @@ async def _send(
             return
         except TelegramBadRequest as error:
             logger.warning("Не удалось отправить фото: %s", error)
-            text = PHOTO_FAILED_NOTE + text
+            # Картинку не показать: даём ссылку, чтобы её можно было открыть самому.
+            text = f"🖼 (картинка не загрузилась: {escape(photo)})\n\n{text}"
     await message.answer(text, reply_markup=kb)
 
 

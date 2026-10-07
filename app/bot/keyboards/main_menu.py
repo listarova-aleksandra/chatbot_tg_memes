@@ -31,3 +31,12 @@ def profile_kb() -> InlineKeyboardMarkup:
             [_button("⬅️ В меню", "main")],
         ]
     )
+
+
+def daily_kb(permalink: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="🔗 Открыть на Reddit", url=permalink)],
+            [_button("⬅️ В меню", "main")],
+        ]
+    )
