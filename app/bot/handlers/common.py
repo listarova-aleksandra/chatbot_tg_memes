@@ -49,7 +49,7 @@ async def cmd_cancel(message: Message, state: FSMContext) -> None:
 
 # Разделы, которые будут реализованы на следующих этапах. Пока кнопка не молчит,
 # а показывает всплывающее уведомление. Эти заглушки удаляются по мере реализации.
-STUB_ACTIONS = {"meme", "community", "daily", "top", "achievements"}
+STUB_ACTIONS = {"meme", "community", "top", "achievements"}
 
 
 @router.callback_query(MenuCB.filter(F.action.in_(STUB_ACTIONS)))
