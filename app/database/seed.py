@@ -79,8 +79,10 @@ def load_questions(path: Path = QUESTIONS_FILE) -> list[QuestionData]:
 async def seed_questions(session: AsyncSession, path: Path = QUESTIONS_FILE) -> int:
     """Синхронизирует таблицу quiz_questions с файлом. Возвращает число вопросов в файле."""
     questions = load_questions(path)
+    # Работаем только с «локальными» вопросами: вопросы из API (source="imgflip") не трогаем.
     existing = {
-        q.slug: q for q in await session.scalars(select(QuizQuestion))
+        q.slug: q
+        for q in await session.scalars(select(QuizQuestion).where(QuizQuestion.source == "local"))
     }
 
     for data in questions:

@@ -60,6 +60,9 @@ class QuizQuestion(Base):
     explanation: Mapped[str] = mapped_column(Text)
     difficulty: Mapped[int] = mapped_column(SmallInteger, default=1)  # 1 легко … 3 сложно
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    # Откуда вопрос: "local" (файл questions.json) или "imgflip" (строится по данным API).
+    # Каждый источник управляет только своими вопросами.
+    source: Mapped[str] = mapped_column(String(20), default="local", server_default="local")
 
 
 class QuizSession(Base):

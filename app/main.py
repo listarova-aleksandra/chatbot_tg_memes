@@ -19,10 +19,16 @@ from sqlalchemy import text
 
 from app.bot.commands import set_bot_commands
 from app.bot.dispatcher import build_dispatcher
+from app.core.cache import TTLCache
 from app.core.config import get_settings
+from app.core.http import ApiClient
 from app.core.logging import setup_logging
 from app.database.seed import seed_questions
 from app.database.session import create_engine, create_session_factory
+from app.services.giphy_service import GiphyService
+from app.services.imgflip_service import ImgflipService
+from app.services.quiz_sources import sync_imgflip_questions
+from app.services.reddit_service import RedditService
 
 logger = logging.getLogger(__name__)
 
@@ -58,12 +64,43 @@ async def main() -> None:
         await engine.dispose()
         sys.exit(1)
 
+    # Внешние API: один HTTP-клиент (timeout + retry) и один общий кэш на все сервисы.
+    api_client = ApiClient(
+        timeout=settings.http_timeout_seconds, max_attempts=settings.http_max_retries
+    )
+    cache = TTLCache()
+    imgflip = ImgflipService(api_client, cache)
+    giphy = GiphyService(
+        api_client, cache, settings.giphy_api_key.get_secret_value() if settings.giphy_api_key else None
+    )
+    reddit = RedditService(
+        api_client,
+        cache,
+        settings.reddit_client_id.get_secret_value() if settings.reddit_client_id else None,
+        settings.reddit_client_secret.get_secret_value() if settings.reddit_client_secret else None,
+        settings.reddit_user_agent,
+    )
+    logger.info("Giphy: %s, Reddit: %s", "вкл" if giphy.enabled else "выкл (нет ключа)",
+                "вкл" if reddit.enabled else "выкл (нет ключей)")
+
+    # Вопросы «угадай мем-шаблон» строятся по данным Imgflip. Если Imgflip недоступен,
+    # викторина просто работает на уже имеющихся вопросах.
+    templates = await imgflip.get_templates()
+    if not templates.is_fallback:
+        try:
+            async with session_factory() as session:
+                count = await sync_imgflip_questions(session, templates.templates)
+                await session.commit()
+            logger.info("Вопросов по шаблонам Imgflip: %s", count)
+        except Exception:
+            logger.exception("Не удалось сохранить вопросы по шаблонам Imgflip, продолжаем без них")
+
     bot = Bot(
         token=settings.bot_token.get_secret_value(),
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
 
-    dp = build_dispatcher(settings, session_factory)
+    dp = build_dispatcher(settings, session_factory, giphy=giphy, reddit=reddit)
 
     try:
         await set_bot_commands(bot)
@@ -78,6 +115,7 @@ async def main() -> None:
     finally:
         logger.info("Остановка бота...")
         await bot.session.close()
+        await api_client.close()
         await engine.dispose()
         logger.info("Бот остановлен")
 

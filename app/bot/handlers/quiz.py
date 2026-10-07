@@ -13,18 +13,20 @@
 import logging
 
 from aiogram import F, Router
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.bot import texts_quiz
+from app.bot import texts, texts_quiz
 from app.bot.callbacks import MenuCB, QuizCB
 from app.bot.helpers import show_screen
 from app.bot.keyboards.quiz import answer_kb, category_kb, finished_kb, next_kb
 from app.bot.states.quiz import QuizStates
 from app.database.models import QuizCategory, User
-from app.services.quiz_service import NoQuestionsError, QuizService, StaleAnswerError
+from app.services.giphy_service import UNAVAILABLE, GiphyService, mood_for_accuracy
+from app.services.quiz_service import GameResult, NoQuestionsError, QuizService, StaleAnswerError
 
 logger = logging.getLogger(__name__)
 
@@ -152,6 +154,7 @@ async def next_step(
     state: FSMContext,
     user: User,
     session: AsyncSession,
+    giphy: GiphyService,
 ) -> None:
     data = await state.get_data()
     if callback_data.q != data["index"]:
@@ -171,6 +174,24 @@ async def next_step(
         return
     await state.set_state(QuizStates.finished)
     await show_screen(callback, texts_quiz.format_result(result), finished_kb())
+    # GIF отправляется ПОСЛЕ итогового экрана: даже если Giphy тормозит, игрок уже видит результат.
+    await _send_reaction_gif(callback, giphy, result)
+
+
+async def _send_reaction_gif(callback: CallbackQuery, giphy: GiphyService, result: GameResult) -> None:
+    """GIF-реакция на результат игры. Любые сбои Giphy не мешают игре."""
+    mood = mood_for_accuracy(result.accuracy)
+    if mood is None or not giphy.enabled:
+        return
+    gif = await giphy.get_reaction(mood, result.category)
+    chat_id = callback.from_user.id  # игра идёт в личном чате, id чата равен id пользователя
+    if gif.status == UNAVAILABLE:
+        await callback.bot.send_message(chat_id, texts.GIF_UNAVAILABLE)
+    elif gif.url is not None:
+        try:
+            await callback.bot.send_animation(chat_id, gif.url)
+        except TelegramBadRequest as error:
+            logger.warning("Telegram не принял GIF: %s", error)
 
 
 # ---------- Всё остальное: устаревшие кнопки ----------

@@ -11,6 +11,7 @@ COMMANDS = [
     BotCommand(command="start", description="Начать"),
     BotCommand(command="menu", description="Главное меню"),
     BotCommand(command="play", description="Играть в викторину"),
+    BotCommand(command="daily", description="Мем дня"),
     BotCommand(command="profile", description="Мой профиль"),
     BotCommand(command="history", description="История игр"),
     BotCommand(command="settings", description="Настройки"),
