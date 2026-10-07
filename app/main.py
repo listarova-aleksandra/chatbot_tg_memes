@@ -11,13 +11,14 @@ import asyncio
 import logging
 import sys
 
-from aiogram import Bot, Dispatcher
+from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.exceptions import TelegramNetworkError, TelegramUnauthorizedError
-from aiogram.fsm.storage.memory import MemoryStorage
 from sqlalchemy import text
 
+from app.bot.commands import set_bot_commands
+from app.bot.dispatcher import build_dispatcher
 from app.core.config import get_settings
 from app.core.logging import setup_logging
 from app.database.session import create_engine, create_session_factory
@@ -50,20 +51,10 @@ async def main() -> None:
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
 
-    # MemoryStorage: состояния FSM лежат в памяти процесса. При перезапуске бота
-    # незаконченные игры сбрасываются. Для учебного проекта это приемлемо.
-    #
-    # Всё, что передано в Dispatcher(...) именованными аргументами, становится
-    # доступным в хендлерах и middleware по имени параметра. Так работает
-    # внедрение зависимостей (dependency injection) в aiogram.
-    dp = Dispatcher(
-        storage=MemoryStorage(),
-        settings=settings,
-        session_factory=session_factory,
-    )
-    # Роутеры с хендлерами подключаются на следующих этапах: dp.include_router(...)
+    dp = build_dispatcher(settings, session_factory)
 
     try:
+        await set_bot_commands(bot)
         logger.info("Бот запущен, ожидаю сообщения")
         await dp.start_polling(bot)
     except TelegramUnauthorizedError:
