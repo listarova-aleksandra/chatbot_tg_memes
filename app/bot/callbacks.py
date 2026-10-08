@@ -29,3 +29,12 @@ class MemeCB(CallbackData, prefix="meme"):
     action: str
     value: str = ""
     page: int = 0
+
+
+class CommunityCB(CallbackData, prefix="comm"):
+    # Вся «память» ленты хранится прямо в кнопке: сортировка, страница, мем, голос.
+    action: str  # view (показать страницу), vote (проголосовать), noop
+    sort: str = "pop"  # pop (популярные) или new (новые)
+    page: int = 0
+    meme_id: int = 0
+    value: int = 0  # 1 или -1
