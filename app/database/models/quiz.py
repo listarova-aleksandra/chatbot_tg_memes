@@ -63,6 +63,9 @@ class QuizQuestion(Base):
     # Откуда вопрос: "local" (файл questions.json) или "imgflip" (строится по данным API).
     # Каждый источник управляет только своими вопросами.
     source: Mapped[str] = mapped_column(String(20), default="local", server_default="local")
+    # Тип картинки вопроса: "gif" (анимация) или "image" (обычная картинка; бот сам скачивает
+    # кадр, превращает в JPEG и отправляет как фото).
+    media_type: Mapped[str] = mapped_column(String(10), default="gif", server_default="gif")
 
 
 class QuizSession(Base):

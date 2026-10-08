@@ -12,7 +12,7 @@ from html import escape
 from urllib.parse import urlparse
 
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
+from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InputFile, Message
 
 logger = logging.getLogger(__name__)
 
@@ -25,12 +25,12 @@ def is_animation(url: str) -> bool:
 
 
 async def _send(
-    message: Message, text: str, kb: InlineKeyboardMarkup | None, media: str | None
+    message: Message, text: str, kb: InlineKeyboardMarkup | None, media: "str | InputFile | None"
 ) -> None:
     """Отправляет новое сообщение. Если картинка или GIF не загрузились, отправляет текст без них."""
     if media:
         try:
-            if is_animation(media):
+            if isinstance(media, str) and is_animation(media):
                 await message.answer_animation(media, caption=text, reply_markup=kb)
             else:
                 await message.answer_photo(media, caption=text, reply_markup=kb)
@@ -38,7 +38,8 @@ async def _send(
         except TelegramBadRequest as error:
             logger.warning("Не удалось отправить медиа: %s", error)
             # Показать нечего: даём ссылку, чтобы её можно было открыть самому.
-            text = f"🖼 (картинка не загрузилась: {escape(media)})\n\n{text}"
+            note = f": {escape(media)}" if isinstance(media, str) else ""
+            text = f"🖼 (картинка не загрузилась{note})\n\n{text}"
     await message.answer(text, reply_markup=kb)
 
 
@@ -47,7 +48,7 @@ async def show_screen(
     text: str,
     reply_markup: InlineKeyboardMarkup | None = None,
     *,
-    media: str | None = None,
+    media: "str | InputFile | None" = None,
     keep_media: bool = False,
 ) -> None:
     """Показывает экран.
