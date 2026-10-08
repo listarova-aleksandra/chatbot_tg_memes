@@ -23,6 +23,7 @@ from app.core.cache import TTLCache
 from app.core.config import get_settings
 from app.core.http import ApiClient
 from app.core.logging import setup_logging
+from app.database.migrations_check import migration_problem
 from app.database.seed import seed_questions
 from app.database.session import create_engine, create_session_factory
 from app.services.giphy_service import GiphyService
@@ -50,6 +51,13 @@ async def main() -> None:
         logger.exception(
             "Не удалось подключиться к БД. Запущен ли PostgreSQL и верен ли DATABASE_URL?"
         )
+        await engine.dispose()
+        sys.exit(1)
+
+    # Забытая миграция: сообщаем понятно и сразу, а не длинной ошибкой SQL посреди запуска.
+    problem = await migration_problem(engine)
+    if problem:
+        logger.error("%s Выполните: python -m alembic upgrade head, затем запустите бота снова.", problem)
         await engine.dispose()
         sys.exit(1)
 
