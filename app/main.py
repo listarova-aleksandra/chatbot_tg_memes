@@ -26,8 +26,7 @@ from app.core.logging import setup_logging
 from app.database.seed import seed_questions
 from app.database.session import create_engine, create_session_factory
 from app.services.giphy_service import GiphyService
-from app.services.imgflip_service import ImgflipService
-from app.services.quiz_sources import sync_imgflip_questions
+from app.services.quiz_sources import load_gif_entries, retire_source, sync_giphy_questions
 from app.services.reddit_service import RedditService
 
 logger = logging.getLogger(__name__)
@@ -69,7 +68,6 @@ async def main() -> None:
         timeout=settings.http_timeout_seconds, max_attempts=settings.http_max_retries
     )
     cache = TTLCache()
-    imgflip = ImgflipService(api_client, cache)
     giphy = GiphyService(
         api_client, cache, settings.giphy_api_key.get_secret_value() if settings.giphy_api_key else None
     )
@@ -83,17 +81,22 @@ async def main() -> None:
     logger.info("Giphy: %s, Reddit: %s", "вкл" if giphy.enabled else "выкл (нет ключа)",
                 "вкл" if reddit.enabled else "выкл (нет ключей)")
 
-    # Вопросы «угадай мем-шаблон» строятся по данным Imgflip. Если Imgflip недоступен,
-    # викторина просто работает на уже имеющихся вопросах.
-    templates = await imgflip.get_templates()
-    if not templates.is_fallback:
-        try:
-            async with session_factory() as session:
-                count = await sync_imgflip_questions(session, templates.templates)
-                await session.commit()
-            logger.info("Вопросов по шаблонам Imgflip: %s", count)
-        except Exception:
-            logger.exception("Не удалось сохранить вопросы по шаблонам Imgflip, продолжаем без них")
+    # Вопросы «Кто на этой GIF?» и «Что это за мем?» строятся по GIF из Giphy. GIF ищется
+    # только для новых записей, поэтому при обычных перезапусках в Giphy бот не ходит.
+    # Если Giphy недоступен, викторина работает на уже сохранённых и локальных вопросах.
+    try:
+        async with session_factory() as session:
+            await retire_source(session, "imgflip")  # устаревшие вопросы по шаблонам Imgflip
+            report = await sync_giphy_questions(session, giphy, load_gif_entries())
+            await session.commit()
+        if giphy.enabled:
+            logger.info(
+                "GIF-вопросы: активных %s, запрошено в Giphy %s, пропущено %s%s",
+                report.active, report.fetched, report.skipped,
+                " (Giphy не ответил, синхронизация прервана)" if report.aborted else "",
+            )
+    except Exception:
+        logger.exception("Не удалось подготовить GIF-вопросы, продолжаем без них")
 
     bot = Bot(
         token=settings.bot_token.get_secret_value(),

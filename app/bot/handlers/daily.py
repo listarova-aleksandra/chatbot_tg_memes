@@ -26,7 +26,7 @@ async def show_daily(event: Message | CallbackQuery, reddit: RedditService, sess
     result = await reddit.get_meme_of_the_day()
     if result.meme is not None:
         await show_screen(
-            event, texts.format_daily(result.meme), daily_kb(result.meme.permalink), photo=result.meme.image_url
+            event, texts.format_daily(result.meme), daily_kb(result.meme.permalink), media=result.meme.image_url
         )
         return
     fact = await QuizService(session).random_fact()

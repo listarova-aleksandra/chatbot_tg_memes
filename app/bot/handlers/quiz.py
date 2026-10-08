@@ -97,7 +97,7 @@ async def _show_question(
         callback,
         texts_quiz.format_question(question, options, index, len(data["question_ids"])),
         answer_kb(len(options), index),
-        photo=question.image_url,
+        media=question.image_url,
     )
 
 
@@ -140,7 +140,7 @@ async def handle_answer(
         callback,
         texts_quiz.format_answer(question, index, total, selected, result),
         next_kb(index, is_last=index + 1 >= total),
-        keep_photo=True,
+        keep_media=True,
     )
 
 

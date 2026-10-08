@@ -32,7 +32,7 @@ from app.database.base import Base, utcnow
 class QuizCategory(StrEnum):
     """Категории викторины. В БД хранятся строки (не PG ENUM): их проще мигрировать."""
 
-    POSTIRONY = "postirony"  # 🇷🇺 Русская постирония
+    POSTIRONY = "postirony"  # 🇷🇺 Постирония и брейнрот
     NBA = "nba"
     WNBA = "wnba"
     HIPHOP = "hiphop"

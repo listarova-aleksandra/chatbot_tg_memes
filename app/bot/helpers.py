@@ -9,6 +9,7 @@
 
 import logging
 from html import escape
+from urllib.parse import urlparse
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
@@ -17,18 +18,27 @@ logger = logging.getLogger(__name__)
 
 
 
+def is_animation(url: str) -> bool:
+    """GIF (в том числе с Giphy) отправляется как анимация, остальное как фото."""
+    parsed = urlparse(url)
+    return parsed.path.lower().endswith(".gif") or (parsed.hostname or "").endswith("giphy.com")
+
+
 async def _send(
-    message: Message, text: str, kb: InlineKeyboardMarkup | None, photo: str | None
+    message: Message, text: str, kb: InlineKeyboardMarkup | None, media: str | None
 ) -> None:
-    """Отправляет новое сообщение. Если фото не загрузилось, отправляет текст без него."""
-    if photo:
+    """Отправляет новое сообщение. Если картинка или GIF не загрузились, отправляет текст без них."""
+    if media:
         try:
-            await message.answer_photo(photo, caption=text, reply_markup=kb)
+            if is_animation(media):
+                await message.answer_animation(media, caption=text, reply_markup=kb)
+            else:
+                await message.answer_photo(media, caption=text, reply_markup=kb)
             return
         except TelegramBadRequest as error:
-            logger.warning("Не удалось отправить фото: %s", error)
-            # Картинку не показать: даём ссылку, чтобы её можно было открыть самому.
-            text = f"🖼 (картинка не загрузилась: {escape(photo)})\n\n{text}"
+            logger.warning("Не удалось отправить медиа: %s", error)
+            # Показать нечего: даём ссылку, чтобы её можно было открыть самому.
+            text = f"🖼 (картинка не загрузилась: {escape(media)})\n\n{text}"
     await message.answer(text, reply_markup=kb)
 
 
@@ -37,17 +47,17 @@ async def show_screen(
     text: str,
     reply_markup: InlineKeyboardMarkup | None = None,
     *,
-    photo: str | None = None,
-    keep_photo: bool = False,
+    media: str | None = None,
+    keep_media: bool = False,
 ) -> None:
     """Показывает экран.
 
-    photo:      URL картинки, если экран должен быть с картинкой
-    keep_photo: если текущее сообщение фото, а новый экран без фото, то заменить только
-                подпись, а картинку оставить (так выглядит экран с объяснением ответа)
+    media:      URL картинки или GIF, если экран должен быть с ними
+    keep_media: если текущее сообщение с картинкой или GIF, а новый экран без них, то
+                заменить только подпись, а картинку оставить (экран с объяснением ответа)
     """
     if isinstance(event, Message):
-        await _send(event, text, reply_markup, photo)
+        await _send(event, text, reply_markup, media)
         return
 
     message = event.message
@@ -57,18 +67,18 @@ async def show_screen(
         await event.answer()
         return
 
-    has_photo = bool(message.photo)
-    if photo is None and not has_photo:
+    has_media = bool(message.photo or message.animation)
+    if media is None and not has_media:
         await _edit(message, text, reply_markup, caption=False)
-    elif photo is None and has_photo and keep_photo:
+    elif media is None and has_media and keep_media:
         await _edit(message, text, reply_markup, caption=True)
     else:
-        # Нужна смена типа сообщения (текст ↔ фото) или новая картинка: удаляем и шлём заново.
+        # Нужна смена типа сообщения (текст ↔ картинка/GIF) или новое медиа: удаляем и шлём заново.
         try:
             await message.delete()
         except TelegramBadRequest:
             logger.debug("Старое сообщение не удалось удалить (возможно, слишком старое)")
-        await _send(message, text, reply_markup, photo)
+        await _send(message, text, reply_markup, media)
 
     # Обязательно «отвечаем» на callback, иначе у кнопки крутится часики.
     await event.answer()

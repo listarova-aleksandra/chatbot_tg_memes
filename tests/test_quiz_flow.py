@@ -4,6 +4,7 @@
 выбирает, заглядывая в данные FSM (там лежат вопросы текущей игры).
 """
 
+import html
 from typing import Any
 
 import pytest
@@ -110,7 +111,7 @@ async def test_full_game_all_correct(player: Player) -> None:
     assert await player.state() == QuizStates.choosing_category.state
     keyboard = player.telegram.of_type(EditMessageText)[-1].reply_markup.inline_keyboard
     labels = [b.text for row in keyboard for b in row]
-    assert "🏀 NBA" in labels and "🇷🇺 Русская постирония" in labels and "🎲 Смешанная" in labels
+    assert "🏀 NBA" in labels and "🇷🇺 Постирония и брейнрот" in labels and "🎲 Смешанная" in labels
 
     await player.press(QuizCB(action="cat", value="nba").pack())
     assert await player.state() == QuizStates.answering.state
@@ -152,8 +153,8 @@ async def test_wrong_answer_shows_correct_one_and_gives_no_xp(player: Player) ->
     question = await player.question()
     await player.answer(correct=False)
     text = player.last_text()
-    assert "Не угадал" in text and question.correct_answer in text
-    assert question.explanation.split(".")[0][:20] in text
+    assert "Не угадал" in text and html.escape(question.correct_answer) in text  # бот экранирует HTML
+    assert html.escape(question.explanation.split(".")[0][:20]) in text
     assert (await player.db_user()).xp == 0
 
 
