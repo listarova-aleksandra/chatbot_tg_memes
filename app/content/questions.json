@@ -1,39 +1,16 @@
 [
   {
-    "slug": "postirony-definition",
-    "category": "postirony",
-    "difficulty": 1,
-    "question": "Что такое «постирония»?",
-    "correct_answer": "Юмор, где иронию и искренность уже не отличить",
-    "wrong_answers": ["Жанр русского рэпа 2010-х", "Мемы только про политику", "Анекдоты про тёщу и тёщины блины"],
-    "explanation": "Постирония: когда непонятно, шутит человек всерьёз или всерьёз шутит. Ирония зашла так глубоко, что граница с искренностью стёрлась. Отсюда абсурд и «мем ради мема»."
-  },
-  {
-    "slug": "postirony-shitpost",
-    "category": "postirony",
-    "difficulty": 1,
-    "question": "Что такое «шитпост»?",
-    "correct_answer": "Намеренно нелепый контент ради иронии и реакции",
-    "wrong_answers": ["Официальная рассылка новостей канала", "Подробный разбор мема с источниками", "Пост с поздравлением в чате"],
-    "explanation": "От английского shitpost: контент, который специально делают абсурдным, перегруженным или бессмысленным. Чем нелепее, тем смешнее. Это одна из основ современной мем-культуры."
-  },
-  {
     "slug": "postirony-cringe",
     "category": "postirony",
     "difficulty": 1,
     "question": "Друг пишет под твоим видео: «ну это кринж». Что он имеет в виду?",
     "correct_answer": "Неловко и стыдно смотреть",
-    "wrong_answers": ["Очень круто и стильно", "Слишком дорого выглядит", "Видео про криптовалюту"],
+    "wrong_answers": [
+      "Очень круто и стильно",
+      "Слишком дорого выглядит",
+      "Видео про криптовалюту"
+    ],
     "explanation": "Кринж от английского cringe: чувство неловкости, испанский стыд за чужой поступок. Слово прочно вошло в русский интернет-сленг."
-  },
-  {
-    "slug": "postirony-rofl",
-    "category": "postirony",
-    "difficulty": 1,
-    "question": "Откуда пошло слово «рофл» и что оно значит?",
-    "correct_answer": "От ROFL: шутка, повод посмеяться",
-    "wrong_answers": ["От названия рэп-баттла: оскорбление", "От слова «рифлёный»: грубая шутка", "От имени блогера: заказная реклама"],
-    "explanation": "ROFL: rolling on the floor laughing, «валяюсь на полу от смеха». «Рофл» это шутка или смешная ситуация, а «зарофлить» значит подшутить над кем-то."
   },
   {
     "slug": "postirony-auf",
@@ -41,7 +18,11 @@
     "difficulty": 2,
     "question": "Что выражает зумерское «ауф»?",
     "correct_answer": "Восторг и одобрение, часто с иронией",
-    "wrong_answers": ["Прощание перед сном", "Усталость после учёбы", "Вопрос «ты где?»"],
+    "wrong_answers": [
+      "Прощание перед сном",
+      "Усталость после учёбы",
+      "Вопрос «ты где?»"
+    ],
     "explanation": "«Ауф» междометие восхищения: «вот это да!», «как же круто». Звучит как волчий вой, поэтому его часто сопровождают картинками с волками."
   },
   {
@@ -50,7 +31,11 @@
     "difficulty": 2,
     "question": "Из какого сериала 2023 года растащили цитаты и мемы про казанские группировки?",
     "correct_answer": "«Слово пацана. Кровь на асфальте»",
-    "wrong_answers": ["«Бригада»", "«Метод»", "«Содержанки»"],
+    "wrong_answers": [
+      "«Бригада»",
+      "«Метод»",
+      "«Содержанки»"
+    ],
     "explanation": "Сериал Жоры Крыжовникова (премьера 9 ноября 2023, START и Wink) по книге Роберта Гараева. Действие идёт в Казани конца 1980-х. Реплики героев мгновенно разошлись на мемы."
   },
   {
@@ -59,7 +44,11 @@
     "difficulty": 2,
     "question": "В какой игре «анекдоты и гитара у костра» стали отдельным мемом?",
     "correct_answer": "S.T.A.L.K.E.R.: Тень Чернобыля",
-    "wrong_answers": ["Fallout 4", "Cyberpunk 2077", "Dark Souls"],
+    "wrong_answers": [
+      "Fallout 4",
+      "Cyberpunk 2077",
+      "Dark Souls"
+    ],
     "explanation": "В «Тени Чернобыля» (GSC Game World, 2007) сталкеры у костра травят анекдоты и играют на гитаре. Эта сцена стала символом атмосферы игры и вечным мемом."
   },
   {
@@ -68,17 +57,12 @@
     "difficulty": 1,
     "question": "«Crying Jordan» — главный мем про поражения. На каком событии сделан исходный кадр?",
     "correct_answer": "Вхождение Джордана в Зал славы баскетбола, 2009",
-    "wrong_answers": ["Финал НБА 1998 года", "Прощальный матч за «Чикаго»", "Интервью после проигрыша «Детройту»"],
+    "wrong_answers": [
+      "Финал НБА 1998 года",
+      "Прощальный матч за «Чикаго»",
+      "Интервью после проигрыша «Детройту»"
+    ],
     "explanation": "Фото сделал фотограф AP во время речи Майкла Джордана на церемонии вхождения в Зал славы 11 сентября 2009 года. Позже его стали накладывать на лица проигравших спортсменов и просто неудачников."
-  },
-  {
-    "slug": "nba-flu-game",
-    "category": "nba",
-    "difficulty": 2,
-    "question": "«Flu Game» Майкла Джордана (1997): против какой команды он сыграл больным в финале НБА?",
-    "correct_answer": "Utah Jazz",
-    "wrong_answers": ["Seattle SuperSonics", "Los Angeles Lakers", "Phoenix Suns"],
-    "explanation": "В пятой игре финала НБА 1997 Джордан, выглядя совсем больным, набрал 38 очков. «Чикаго» выиграл матч и в итоге всю серию у «Юты». Причину болезни (грипп или еда) обсуждают до сих пор."
   },
   {
     "slug": "nba-kobe-trash",
@@ -86,7 +70,11 @@
     "difficulty": 1,
     "question": "Что принято кричать, бросая бумажку в мусорку, как мяч в кольцо?",
     "correct_answer": "«Kobe!»",
-    "wrong_answers": ["«Shaq!»", "«Dunk!»", "«LeBron!»"],
+    "wrong_answers": [
+      "«Shaq!»",
+      "«Dunk!»",
+      "«LeBron!»"
+    ],
     "explanation": "Крик «Kobe!» при броске это вечный мем. Коби Брайант (1978–2020), пятикратный чемпион НБА с «Лейкерс», считался эталоном точного броска."
   },
   {
@@ -95,7 +83,11 @@
     "difficulty": 1,
     "question": "Как называется рубрика Шакила О'Нила, где показывают самые нелепые моменты матчей НБА?",
     "correct_answer": "Shaqtin' a Fool",
-    "wrong_answers": ["NBA Bloopers Time", "Dunk of Shame", "Fool's Gold"],
+    "wrong_answers": [
+      "NBA Bloopers Time",
+      "Dunk of Shame",
+      "Fool's Gold"
+    ],
     "explanation": "Shaqtin' a Fool: рубрика шоу Inside the NBA на канале TNT. Шакил комментирует подборку самых нелепых моментов недели, и они сами по себе превращаются в мемы."
   },
   {
@@ -104,26 +96,12 @@
     "difficulty": 2,
     "question": "Чьи решающие броски в концовках матчей называют «Dame Time»?",
     "correct_answer": "Дэмиан Лиллард",
-    "wrong_answers": ["Стеф Карри", "Кайри Ирвинг", "Деверин Букер"],
+    "wrong_answers": [
+      "Стеф Карри",
+      "Кайри Ирвинг",
+      "Деверин Букер"
+    ],
     "explanation": "«Dame Time» это фирменное время Лилларда, когда он забивает в концовке. Самый знаменитый пример: бросок с сиреной против «Оклахомы» в плей-офф 2019, после которого он помахал рукой, мол, «пока»."
-  },
-  {
-    "slug": "nba-vince-carter",
-    "category": "nba",
-    "difficulty": 2,
-    "question": "Над кем перепрыгнул Винс Картер в знаменитом данке на Олимпиаде-2000?",
-    "correct_answer": "Над французским центром Фредериком Вайсом",
-    "wrong_answers": ["Над Шакилом О'Нилом", "Над Дирком Новицки", "Над Деяном Бодирогой"],
-    "explanation": "«Dunk of Death» (по-французски «le dunk de la mort») 25 сентября 2000 в Сиднее: Картер ростом 198 см перелетел через 218-сантиметрового Вайса. Это один из самых знаменитых данков в истории."
-  },
-  {
-    "slug": "nba-greek-freak",
-    "category": "nba",
-    "difficulty": 1,
-    "question": "Кого называют «Greek Freak»?",
-    "correct_answer": "Янниса Адетокунбо",
-    "wrong_answers": ["Николу Йокича", "Луку Дончича", "Кристапса Порзингиса"],
-    "explanation": "Яннис Адетокунбо (Giannis Antetokounmpo) родился в Афинах, играет за «Милуоки Бакс». Двукратный MVP лиги (2019 и 2020) и чемпион НБА 2021. «Freak» это игра слов: freak of nature, «чудо природы»."
   },
   {
     "slug": "wnba-clark-pick",
@@ -131,7 +109,11 @@
     "difficulty": 1,
     "question": "Какая команда выбрала Кейтлин Кларк под первым номером на драфте WNBA 2024?",
     "correct_answer": "Indiana Fever",
-    "wrong_answers": ["Chicago Sky", "Las Vegas Aces", "New York Liberty"],
+    "wrong_answers": [
+      "Chicago Sky",
+      "Las Vegas Aces",
+      "New York Liberty"
+    ],
     "explanation": "«Индиана Фивер» выбрала Кларк под №1 на драфте 2024 года. До этого она стала самым результативным игроком в истории I дивизиона NCAA, играя за Iowa Hawkeyes."
   },
   {
@@ -140,7 +122,11 @@
     "difficulty": 2,
     "question": "За какую команду играет А'джа Уилсон?",
     "correct_answer": "Las Vegas Aces",
-    "wrong_answers": ["Seattle Storm", "Phoenix Mercury", "Connecticut Sun"],
+    "wrong_answers": [
+      "Seattle Storm",
+      "Phoenix Mercury",
+      "Connecticut Sun"
+    ],
     "explanation": "А'джа Уилсон выступает за «Лас-Вегас Эйсес», с которыми выиграла чемпионство WNBA в 2022 и 2023 годах. Она одна из главных звёзд лиги."
   },
   {
@@ -149,7 +135,11 @@
     "difficulty": 3,
     "question": "Кто набрала 37 из 40 очков в конкурсе трёхочковых на матче всех звёзд WNBA 2023?",
     "correct_answer": "Сабрина Ионеску",
-    "wrong_answers": ["Келси Плам", "Скайлар Диггинс-Смит", "Джуэл Лойд"],
+    "wrong_answers": [
+      "Келси Плам",
+      "Скайлар Диггинс-Смит",
+      "Джуэл Лойд"
+    ],
     "explanation": "Результат Ионеску («Нью-Йорк Либерти») был такой впечатляющий, что Стеф Карри позвал её на шоудаун на звёздном уикенде НБА-2024. Там он выиграл 29:26."
   },
   {
@@ -158,26 +148,12 @@
     "difficulty": 2,
     "question": "Какое прозвище использует Анджел Риз, гордясь своим студенческим прошлым?",
     "correct_answer": "Bayou Barbie",
-    "wrong_answers": ["Queen of Chicago", "Hoops Princess", "Tiger Mamba"],
+    "wrong_answers": [
+      "Queen of Chicago",
+      "Hoops Princess",
+      "Tiger Mamba"
+    ],
     "explanation": "Риз говорит: «I'm always gonna be the Bayou Barbie», потому что Луизиана для неё дом. Она привела LSU к первому в истории титулу NCAA (2023), а в 2024 была выбрана «Чикаго Скай» под №7."
-  },
-  {
-    "slug": "wnba-taurasi-record",
-    "category": "wnba",
-    "difficulty": 2,
-    "question": "Кто в 2017 году стала самой результативной баскетболисткой в истории WNBA, обогнав Тину Томпсон?",
-    "correct_answer": "Диана Таурази",
-    "wrong_answers": ["Сью Бёрд", "Лорен Джексон", "Кэндис Паркер"],
-    "explanation": "Таурази («Финикс Меркури») в июне 2017 года обогнала Тину Томпсон, у которой было 7488 очков, в матче против «Лос-Анджелес Спаркс» и возглавила список лучших бомбардиров лиги."
-  },
-  {
-    "slug": "wnba-liberty-2024",
-    "category": "wnba",
-    "difficulty": 2,
-    "question": "Кто стал чемпионом WNBA в 2024 году?",
-    "correct_answer": "New York Liberty",
-    "wrong_answers": ["Minnesota Lynx", "Las Vegas Aces", "Indiana Fever"],
-    "explanation": "«Нью-Йорк Либерти» обыграли «Миннесоту Линкс» 3:2 в финальной серии. Это первый титул в истории клуба, а MVP финала стала Джонкуэл Джонс."
   },
   {
     "slug": "hiphop-kanye-vma",
@@ -185,7 +161,11 @@
     "difficulty": 1,
     "question": "Канье Уэст выскочил на сцену со словами «Imma let you finish…». Кого он перебил на VMA-2009?",
     "correct_answer": "Тейлор Свифт",
-    "wrong_answers": ["Бейонсе", "Леди Гагу", "Рианну"],
+    "wrong_answers": [
+      "Бейонсе",
+      "Леди Гагу",
+      "Рианну"
+    ],
     "explanation": "Во время речи Тейлор Свифт на MTV VMA 2009 Канье заявил, что клип Бейонсе «Single Ladies» один из лучших в истории. Фраза «Imma let you finish» с тех пор живёт в мемах."
   },
   {
@@ -194,7 +174,11 @@
     "difficulty": 1,
     "question": "Какая еда упоминается в «Lose Yourself» Эминема и стала мемом про волнение?",
     "correct_answer": "Мамины спагетти",
-    "wrong_answers": ["Бабушкин пирог", "Мамины блины", "Папин стейк"],
+    "wrong_answers": [
+      "Бабушкин пирог",
+      "Мамины блины",
+      "Папин стейк"
+    ],
     "explanation": "«Palms are sweaty, knees weak, arms are heavy… mom's spaghetti». Строчка из «Lose Yourself» (2002, саундтрек «8 мили») стала мемом, а в 2017 Эминем открыл в Детройте ресторан Mom's Spaghetti."
   },
   {
@@ -203,26 +187,12 @@
     "difficulty": 2,
     "question": "Какая сеть фастфуда выпустила «Travis Scott Meal» осенью 2020?",
     "correct_answer": "McDonald's",
-    "wrong_answers": ["Burger King", "KFC", "Subway"],
+    "wrong_answers": [
+      "Burger King",
+      "KFC",
+      "Subway"
+    ],
     "explanation": "Сет Трэвиса Скотта в McDonald's стал настоящим хайпом осени 2020: по сообщениям, в некоторых точках из-за ажиотажа даже заканчивались ингредиенты."
-  },
-  {
-    "slug": "hiphop-tupac-hologram",
-    "category": "hiphop",
-    "difficulty": 2,
-    "question": "На каком фестивале в 2012 году на сцену «вышел» голограммой Тупак Шакур?",
-    "correct_answer": "Coachella",
-    "wrong_answers": ["Lollapalooza", "Glastonbury", "Rolling Loud"],
-    "explanation": "Голограмма Тупака (он погиб в 1996) выступила на Coachella 2012 вместе со Снуп Доггом и Dr. Dre. Тогда это была сенсация, и об этом много шутили."
-  },
-  {
-    "slug": "hiphop-old-town-road",
-    "category": "hiphop",
-    "difficulty": 2,
-    "question": "Хит Lil Nas X «Old Town Road» (2019) смешал рэп с каким жанром, из-за чего возник скандал с чартами?",
-    "correct_answer": "Кантри",
-    "wrong_answers": ["Реггетон", "Метал", "Фанк"],
-    "explanation": "Billboard убрал трек из чарта Hot Country Songs: он, мол, недостаточно «кантри». Шума стало только больше, и в итоге песня провела 19 недель на вершине Hot 100. Это рекорд для своего времени."
   },
   {
     "slug": "hiphop-not-like-us",
@@ -230,7 +200,11 @@
     "difficulty": 2,
     "question": "Какой трек Кендрика Ламара 2024 года стал символом его бифа с Дрейком и разошёлся по клубам и мемам?",
     "correct_answer": "Not Like Us",
-    "wrong_answers": ["Alright", "HUMBLE.", "Swimming Pools"],
+    "wrong_answers": [
+      "Alright",
+      "HUMBLE.",
+      "Swimming Pools"
+    ],
     "explanation": "«Not Like Us» дебютировал на первом месте Billboard Hot 100 (май 2024). В феврале 2025 Кендрик завершил им своё шоу в перерыве Super Bowl LIX в Новом Орлеане."
   },
   {
@@ -239,7 +213,11 @@
     "difficulty": 1,
     "question": "Чья фирменная фраза «Okurrr»?",
     "correct_answer": "Карди Би",
-    "wrong_answers": ["Nicki Minaj", "Megan Thee Stallion", "Doja Cat"],
+    "wrong_answers": [
+      "Nicki Minaj",
+      "Megan Thee Stallion",
+      "Doja Cat"
+    ],
     "explanation": "«Okurrr» это фирменное восклицание Карди Би. Оно попадает в её песни и ролики, а из-за узнаваемой интонации давно живёт в мемах."
   },
   {
@@ -248,7 +226,11 @@
     "difficulty": 1,
     "question": "Как фанаты назвали выступление Бейонсе на фестивале Coachella 2018?",
     "correct_answer": "Beychella",
-    "wrong_answers": ["Beyoncella", "Queenchella", "Beyfest"],
+    "wrong_answers": [
+      "Beyoncella",
+      "Queenchella",
+      "Beyfest"
+    ],
     "explanation": "Beychella: сочетание Beyoncé и Coachella. Бейонсе стала первой чернокожей женщиной в роли хедлайнера Coachella, и шоу вошло в историю фестиваля."
   },
   {
@@ -257,7 +239,11 @@
     "difficulty": 2,
     "question": "Какой студийный альбом Фрэнк Оушен выпустил в августе 2016, закончив многолетнее ожидание фанатов?",
     "correct_answer": "Blonde",
-    "wrong_answers": ["Nostalgia, Ultra", "Ctrl", "Anti"],
+    "wrong_answers": [
+      "Nostalgia, Ultra",
+      "Ctrl",
+      "Anti"
+    ],
     "explanation": "«Blonde» вышел 20 августа 2016, спустя четыре года после «Channel Orange». За день до него появился визуальный альбом «Endless». Шутки про вечное ожидание альбомов Фрэнка стали мемом."
   },
   {
@@ -266,7 +252,11 @@
     "difficulty": 2,
     "question": "Образ The Weeknd с забинтованным лицом связан с эрой какого альбома?",
     "correct_answer": "After Hours",
-    "wrong_answers": ["Starboy", "Dawn FM", "Beauty Behind the Madness"],
+    "wrong_answers": [
+      "Starboy",
+      "Dawn FM",
+      "Beauty Behind the Madness"
+    ],
     "explanation": "Эра After Hours (2020): красный пиджак, окровавленное и забинтованное лицо, хит «Blinding Lights». Бинты были и в шоу в перерыве Super Bowl LV в феврале 2021."
   },
   {
@@ -275,7 +265,11 @@
     "difficulty": 2,
     "question": "Фанаты годами мемят «R9» в комментариях Рианны. Что они имеют в виду?",
     "correct_answer": "Её девятый студийный альбом, которого все ждут",
-    "wrong_answers": ["Новую линию косметики Fenty", "Номер самолёта артистки", "Название её тура"],
+    "wrong_answers": [
+      "Новую линию косметики Fenty",
+      "Номер самолёта артистки",
+      "Название её тура"
+    ],
     "explanation": "Последний студийный альбом Рианны «Anti» вышел в 2016, а следующий фанаты называют «R9». В 2023 она выступила на Super Bowl LVII, но новой пластинки всё ещё ждут."
   },
   {
@@ -284,17 +278,12 @@
     "difficulty": 1,
     "question": "Какую песню Мэрайи Кэри каждый год 1 ноября «размораживают» в мемах?",
     "correct_answer": "All I Want for Christmas Is You",
-    "wrong_answers": ["Hero", "Fantasy", "We Belong Together"],
+    "wrong_answers": [
+      "Hero",
+      "Fantasy",
+      "We Belong Together"
+    ],
     "explanation": "Песня 1994 года каждую зиму возвращается в чарты. Лишь в декабре 2019 года, спустя 25 лет после выхода, она впервые возглавила Billboard Hot 100."
-  },
-  {
-    "slug": "rnb-usher-superbowl",
-    "category": "rnb",
-    "difficulty": 1,
-    "question": "Кто выступал в перерыве Super Bowl LVIII в Лас-Вегасе в феврале 2024?",
-    "correct_answer": "Usher",
-    "wrong_answers": ["The Weeknd", "Rihanna", "Bruno Mars"],
-    "explanation": "Usher выступил на Allegiant Stadium 11 февраля 2024. Шоу стало самым просматриваемым выступлением в перерыве Super Bowl за всю историю. До него в этой роли были The Weeknd (2021) и Рианна (2023)."
   },
   {
     "slug": "internet-sus",
@@ -302,7 +291,11 @@
     "difficulty": 1,
     "question": "Из какой игры слово «sus» (подозрительный) стало массовым сленгом?",
     "correct_answer": "Among Us",
-    "wrong_answers": ["Fortnite", "Minecraft", "Roblox"],
+    "wrong_answers": [
+      "Fortnite",
+      "Minecraft",
+      "Roblox"
+    ],
     "explanation": "Sus: сокращение от suspicious. В Among Us нужно вычислять предателя среди экипажа. Игра вышла в 2018, но настоящий бум случился в 2020, и «sus» разошёлся по всем соцсетям."
   },
   {
@@ -311,26 +304,12 @@
     "difficulty": 2,
     "question": "В какой программе сделан сериал Skibidi Toilet про поющие унитазы?",
     "correct_answer": "Source Filmmaker",
-    "wrong_answers": ["Roblox Studio", "Minecraft", "Unreal Engine 5"],
+    "wrong_answers": [
+      "Roblox Studio",
+      "Minecraft",
+      "Unreal Engine 5"
+    ],
     "explanation": "Сериал на YouTube с февраля 2023 делает Алексей Герасимов (канал раньше назывался DaFuq!?Boom!). Ролики собраны в Source Filmmaker из ассетов игр Valve."
-  },
-  {
-    "slug": "internet-doge",
-    "category": "internet",
-    "difficulty": 1,
-    "question": "Какая порода собаки на мемах «Doge»?",
-    "correct_answer": "Сиба-ину",
-    "wrong_answers": ["Корги", "Хаски", "Акита-ину"],
-    "explanation": "На фото собака по кличке Кабосу. Фото 2010 года сделала её хозяйка Ацуко Сато из Японии и выложила в личный блог. Оттуда оно попало на форумы и стало мемом."
-  },
-  {
-    "slug": "internet-pepe",
-    "category": "internet",
-    "difficulty": 2,
-    "question": "Кто придумал лягушонка Пепе?",
-    "correct_answer": "Мэтт Фьюри в комиксе Boy's Club",
-    "wrong_answers": ["Пользователи 4chan", "Студия Pixar", "Крис Торрес, автор Nyan Cat"],
-    "explanation": "Пепе появился в комиксе Мэтта Фьюри Boy's Club в 2005 году. Позже его растащил интернет, а в 2017 автор «похоронил» персонажа в новом выпуске комикса."
   },
   {
     "slug": "internet-ratio",
@@ -338,7 +317,11 @@
     "difficulty": 2,
     "question": "Что значит «ratio» в ответе на пост в соцсетях?",
     "correct_answer": "У ответа больше лайков, чем у самого поста",
-    "wrong_answers": ["Пост удалил модератор", "Соотношение подписчиков и подписок", "Автора забанили"],
+    "wrong_answers": [
+      "Пост удалил модератор",
+      "Соотношение подписчиков и подписок",
+      "Автора забанили"
+    ],
     "explanation": "Ратио: ответ набрал больше лайков, чем исходный пост. Считается, что с автором не согласны, и его «отратиовали»."
   },
   {
@@ -347,16 +330,76 @@
     "difficulty": 3,
     "question": "«Six seven» (6-7) стало словом 2025 года по версии Dictionary.com. Из какого трека пошёл мем?",
     "correct_answer": "«Doot Doot (6 7)» Skrilla",
-    "wrong_answers": ["«Not Like Us» Kendrick Lamar", "«Sicko Mode» Travis Scott", "«Lose Yourself» Eminem"],
+    "wrong_answers": [
+      "«Not Like Us» Kendrick Lamar",
+      "«Sicko Mode» Travis Scott",
+      "«Lose Yourself» Eminem"
+    ],
     "explanation": "Трек Skrilla вышел в декабре 2024. Мем разогнали баскетбольные эдиты про ЛаМело Болла (рост 6'7\", то есть 2,01 м). Dictionary.com выбрал «67» словом года, назвав его бессмысленным брейнротом."
   },
   {
-    "slug": "internet-telegram-founders",
+    "slug": "postirony-sigma-boy",
+    "category": "postirony",
+    "difficulty": 2,
+    "question": "Какая российская песня 2024 года с припевом про «сигму» взорвала TikTok и стала мемом по всему миру?",
+    "correct_answer": "«Sigma Boy» — Betsy и Мария Янковская",
+    "wrong_answers": [
+      "«Тает лёд» — Грибы",
+      "«Розовое вино» — Элджей и Feduk",
+      "«Life» — Zivert"
+    ],
+    "explanation": "Песня вышла в октябре 2024, её исполнили Betsy и Мария Янковская. К концу ноября она взорвала TikTok и возглавила мировой чарт Spotify Viral 50. Мем построен на интернет-слове «сигма» (сигма-самец), и многие используют его с иронией."
+  },
+  {
+    "slug": "nba-wemby-alien",
+    "category": "nba",
+    "difficulty": 2,
+    "question": "Как фанаты в шутку называют Виктора Вембаньяму за навыки гарда при росте больше 2,20 м?",
+    "correct_answer": "Инопланетянин (Alien)",
+    "wrong_answers": [
+      "Кракен",
+      "Башня",
+      "Чёрная мамба"
+    ],
+    "explanation": "Шутку про «инопланетянина» запустил ЛеБрон Джеймс: в октябре 2022 он назвал Вемби так на пресс-конференции. Француз стал первым номером драфта 2023 и играет за «Сан-Антонио»."
+  },
+  {
+    "slug": "wnba-bueckers-pick",
+    "category": "wnba",
+    "difficulty": 2,
+    "question": "Кого «Даллас Уингз» выбрали под первым номером драфта WNBA 2025, всего через неделю после титула UConn?",
+    "correct_answer": "Пейдж Бакерс",
+    "wrong_answers": [
+      "Кейтлин Кларк",
+      "Анджел Риз",
+      "Сабрина Ионеску"
+    ],
+    "explanation": "Пейдж Бакерс выбрали первой 14 апреля 2025, через неделю после чемпионства UConn в NCAA. Она продолжила список разыгрывающих из UConn под первым номером: Сью Бёрд, Диана Таурази, Брианна Стюарт."
+  },
+  {
+    "slug": "internet-brainrot",
     "category": "internet",
-    "difficulty": 1,
-    "question": "Кто основал мессенджер Telegram?",
-    "correct_answer": "Павел и Николай Дуровы",
-    "wrong_answers": ["Марк Цукерберг и Эдуардо Саверин", "Брайан Эктон и Ян Кум", "Илон Маск и Питер Тиль"],
-    "explanation": "Telegram запустили в августе 2013 года братья Дуровы. В рунете он стал основной площадкой для мем-каналов и пабликов."
+    "difficulty": 2,
+    "question": "Какое слово Oxford назвал словом 2024 года, описав им упадок мозга от бесконечной ленты бессмысленного контента?",
+    "correct_answer": "Brain rot",
+    "wrong_answers": [
+      "Demure",
+      "Slop",
+      "Rizz"
+    ],
+    "explanation": "«Brain rot» набрало за год на 230% больше употреблений и прижилось у Gen Z и Gen Alpha. Первым это слово использовал Генри Дэвид Торо в «Уолдене» (1854). «Rizz» было словом 2023 года."
+  },
+  {
+    "slug": "internet-moo-deng",
+    "category": "internet",
+    "difficulty": 2,
+    "question": "Какое животное из таиландского зоопарка стало мемом осенью 2024 из-за фото, где его поливают из шланга?",
+    "correct_answer": "Пигмейский бегемотик Му Дэн",
+    "wrong_answers": [
+      "Красная панда Тим",
+      "Выдра Лулу",
+      "Капибара Нонг"
+    ],
+    "explanation": "Му Дэн родилась в июле 2024 в зоопарке Khao Kheow Open Zoo, а настоящий взрыв популярности случился 5 сентября. Её имя переводится как «упругая свинка»."
   }
 ]

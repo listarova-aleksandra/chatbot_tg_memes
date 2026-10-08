@@ -1,0 +1,380 @@
+[
+  {
+    "slug": "skibidi",
+    "category": "internet",
+    "kind": "meme",
+    "query": "skibidi toilet",
+    "answer": "Skibidi Toilet",
+    "note": "Серия роликов про поющие унитазы с головами. Её с февраля 2023 делает на YouTube Алексей Герасимов, а собрана она в Source Filmmaker.",
+    "difficulty": 1
+  },
+  {
+    "slug": "six-seven",
+    "category": "internet",
+    "kind": "meme",
+    "query": "67 meme",
+    "answer": "6-7 (six seven)",
+    "note": "Мем из трека Skrilla «Doot Doot (6 7)» и баскетбольных эдитов про ЛаМело Болла (рост 6'7\"). Dictionary.com выбрал «67» словом 2025 года.",
+    "difficulty": 2
+  },
+  {
+    "slug": "chicken-jockey",
+    "category": "internet",
+    "kind": "meme",
+    "query": "chicken jockey minecraft",
+    "answer": "Chicken Jockey",
+    "note": "Фраза из трейлера «Minecraft в кино» (2025): Джек Блэк в роли Стива объявляет «Chicken jockey!». В кинотеатрах зал в ответ кричал и кидался попкорном.",
+    "difficulty": 2
+  },
+  {
+    "slug": "chill-guy",
+    "category": "internet",
+    "kind": "meme",
+    "query": "chill guy",
+    "answer": "Chill Guy",
+    "note": "Расслабленный пёс в свитере и джинсах, которому на всё всё равно. Мем осени 2024.",
+    "difficulty": 2
+  },
+  {
+    "slug": "wednesday-dance",
+    "category": "internet",
+    "kind": "meme",
+    "query": "wednesday addams dance",
+    "answer": "Танец Уэнсдей",
+    "note": "Танец Дженны Ортеги из сериала «Уэнсдей» (Netflix, 2022) стал трендом TikTok: его повторяли под «Bloody Mary» Леди Гаги.",
+    "difficulty": 1
+  },
+  {
+    "slug": "grimace-shake",
+    "category": "internet",
+    "kind": "meme",
+    "query": "grimace shake",
+    "answer": "Grimace Shake",
+    "note": "Тренд лета 2023: после фиолетового коктейля McDonald's к дню рождения Гримаса люди снимали жуткие «последствия».",
+    "difficulty": 2
+  },
+  {
+    "slug": "mewing",
+    "category": "internet",
+    "kind": "meme",
+    "query": "mewing",
+    "answer": "Mewing",
+    "note": "Тренд про «правильное положение языка» ради чёткой челюсти. В мемах это давно шутка: человек молча прикладывает палец к подбородку.",
+    "difficulty": 2
+  },
+  {
+    "slug": "gigachad",
+    "category": "internet",
+    "kind": "meme",
+    "query": "gigachad",
+    "answer": "Gigachad",
+    "note": "Образ идеального уверенного мужчины с квадратной челюстью. Используется как ироничный идеал и как ответ «я после качалки».",
+    "difficulty": 1
+  },
+  {
+    "slug": "barbenheimer",
+    "category": "internet",
+    "kind": "meme",
+    "query": "barbenheimer",
+    "answer": "Barbenheimer",
+    "note": "«Барби» и «Оппенгеймер» вышли в один день, 21 июля 2023. Зрители сделали из этого двойной сеанс и мем.",
+    "difficulty": 1
+  },
+  {
+    "slug": "labubu",
+    "category": "internet",
+    "kind": "meme",
+    "query": "labubu",
+    "answer": "Labubu",
+    "note": "Клыкастая коллекционная игрушка Pop Mart. В 2025 стала вирусным трендом, её вешали на сумки.",
+    "difficulty": 2
+  },
+  {
+    "slug": "tralalero",
+    "category": "postirony",
+    "kind": "meme",
+    "query": "tralalero tralala",
+    "answer": "Tralalero Tralala",
+    "note": "Акула в кроссовках Nike с итальянской озвучкой, один из первых героев «итальянского брейнрота» (2025). Герои сгенерированы нейросетью.",
+    "difficulty": 2
+  },
+  {
+    "slug": "tung-tung",
+    "category": "postirony",
+    "kind": "meme",
+    "query": "tung tung tung sahur",
+    "answer": "Tung Tung Tung Sahur",
+    "note": "Деревянный человечек с битой из «итальянского брейнрота». Название имитирует звук барабана, которым в Индонезии будят людей на сухур перед рассветом в Рамадан.",
+    "difficulty": 3
+  },
+  {
+    "slug": "ballerina-cappuccina",
+    "category": "postirony",
+    "kind": "meme",
+    "query": "ballerina cappuccina",
+    "answer": "Ballerina Cappuccina",
+    "note": "Балерина с чашкой капучино вместо головы. Типичный персонаж «итальянского брейнрота» 2025 года.",
+    "difficulty": 2
+  },
+  {
+    "slug": "sigma-boy",
+    "category": "postirony",
+    "kind": "meme",
+    "query": "sigma sigma boy",
+    "answer": "Sigma Boy",
+    "note": "Российская поп-песня 2024 года, которую исполнили Betsy и Мария Янковская. Взорвала TikTok и разошлась на мемы про «сигму».",
+    "difficulty": 2
+  },
+  {
+    "slug": "curry",
+    "category": "nba",
+    "kind": "person",
+    "query": "stephen curry",
+    "answer": "Stephen Curry",
+    "note": "Стеф Карри, разыгрывающий «Голден Стэйт» и один из лучших трёхочковых стрелков в истории.",
+    "difficulty": 1
+  },
+  {
+    "slug": "lebron",
+    "category": "nba",
+    "kind": "person",
+    "query": "lebron james",
+    "answer": "LeBron James",
+    "note": "ЛеБрон Джеймс, четырёхкратный чемпион НБА.",
+    "difficulty": 1
+  },
+  {
+    "slug": "jokic",
+    "category": "nba",
+    "kind": "person",
+    "query": "nikola jokic",
+    "answer": "Nikola Jokic",
+    "note": "Никола Йокич, сербский центровой «Денвера» и трёхкратный MVP лиги.",
+    "difficulty": 1
+  },
+  {
+    "slug": "wemby",
+    "category": "nba",
+    "kind": "person",
+    "query": "wembanyama",
+    "answer": "Victor Wembanyama",
+    "note": "Виктор Вембаньяма, французский центровой «Сан-Антонио» и первый номер драфта 2023.",
+    "difficulty": 2
+  },
+  {
+    "slug": "doncic",
+    "category": "nba",
+    "kind": "person",
+    "query": "luka doncic",
+    "answer": "Luka Doncic",
+    "note": "Лука Дончич, словенский разыгрывающий. Его фирменные броски называют «Luka Magic».",
+    "difficulty": 2
+  },
+  {
+    "slug": "shaq",
+    "category": "nba",
+    "kind": "person",
+    "query": "shaquille o'neal",
+    "answer": "Shaquille O'Neal",
+    "note": "Шакил О'Нил, четырёхкратный чемпион НБА и звезда студии Inside the NBA.",
+    "difficulty": 1
+  },
+  {
+    "slug": "giannis",
+    "category": "nba",
+    "kind": "person",
+    "query": "giannis antetokounmpo",
+    "answer": "Giannis Antetokounmpo",
+    "note": "Яннис Адетокунбо по прозвищу Greek Freak, двукратный MVP НБА и чемпион 2021.",
+    "difficulty": 2
+  },
+  {
+    "slug": "edwards",
+    "category": "nba",
+    "kind": "person",
+    "query": "anthony edwards",
+    "answer": "Anthony Edwards",
+    "note": "Энтони Эдвардс по прозвищу Ant-Man, защитник «Миннесоты».",
+    "difficulty": 2
+  },
+  {
+    "slug": "clark",
+    "category": "wnba",
+    "kind": "person",
+    "query": "caitlin clark",
+    "answer": "Caitlin Clark",
+    "note": "Кейтлин Кларк, первый номер драфта WNBA 2024, «Индиана Фивер».",
+    "difficulty": 1
+  },
+  {
+    "slug": "wilson",
+    "category": "wnba",
+    "kind": "person",
+    "query": "a'ja wilson",
+    "answer": "A'ja Wilson",
+    "note": "А'джа Уилсон, «Лас-Вегас Эйсес», чемпионка WNBA 2022 и 2023.",
+    "difficulty": 2
+  },
+  {
+    "slug": "reese",
+    "category": "wnba",
+    "kind": "person",
+    "query": "angel reese",
+    "answer": "Angel Reese",
+    "note": "Анджел Риз, «Чикаго Скай», она же Bayou Barbie.",
+    "difficulty": 1
+  },
+  {
+    "slug": "ionescu",
+    "category": "wnba",
+    "kind": "person",
+    "query": "sabrina ionescu",
+    "answer": "Sabrina Ionescu",
+    "note": "Сабрина Ионеску, «Нью-Йорк Либерти»: набрала 37 из 40 в конкурсе трёхочковых WNBA 2023.",
+    "difficulty": 2
+  },
+  {
+    "slug": "bueckers",
+    "category": "wnba",
+    "kind": "person",
+    "query": "paige bueckers",
+    "answer": "Paige Bueckers",
+    "note": "Пейдж Бакерс, первый номер драфта WNBA 2025, «Даллас Уингз».",
+    "difficulty": 2
+  },
+  {
+    "slug": "taurasi",
+    "category": "wnba",
+    "kind": "person",
+    "query": "diana taurasi",
+    "answer": "Diana Taurasi",
+    "note": "Диана Таурази, самая результативная в истории WNBA (рекорд 2017 года).",
+    "difficulty": 2
+  },
+  {
+    "slug": "travis",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "travis scott",
+    "answer": "Travis Scott",
+    "note": "Трэвис Скотт. В 2020 году у него был собственный сет в McDonald's.",
+    "difficulty": 1
+  },
+  {
+    "slug": "kendrick",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "kendrick lamar",
+    "answer": "Kendrick Lamar",
+    "note": "Кендрик Ламар, хедлайнер шоу в перерыве Super Bowl LIX (2025).",
+    "difficulty": 1
+  },
+  {
+    "slug": "drake",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "drake rapper",
+    "answer": "Drake",
+    "note": "Дрейк, канадский рэпер, главный герой бифа 2024 года с Кендриком Ламаром.",
+    "difficulty": 1
+  },
+  {
+    "slug": "cardi",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "cardi b",
+    "answer": "Cardi B",
+    "note": "Карди Би, автор фирменного «Okurrr».",
+    "difficulty": 1
+  },
+  {
+    "slug": "nicki",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "nicki minaj",
+    "answer": "Nicki Minaj",
+    "note": "Ники Минаж, её фанатов называют Barbz.",
+    "difficulty": 1
+  },
+  {
+    "slug": "eminem",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "eminem",
+    "answer": "Eminem",
+    "note": "Эминем, автор «Lose Yourself» и мема про мамины спагетти.",
+    "difficulty": 1
+  },
+  {
+    "slug": "snoop",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "snoop dogg",
+    "answer": "Snoop Dogg",
+    "note": "Снуп Догг. В 2012 на Coachella он выступал рядом с голограммой Тупака.",
+    "difficulty": 1
+  },
+  {
+    "slug": "carti",
+    "category": "hiphop",
+    "kind": "person",
+    "query": "playboi carti",
+    "answer": "Playboi Carti",
+    "note": "Playboi Carti, рэпер из Атланты, культовая фигура у зумеров.",
+    "difficulty": 2
+  },
+  {
+    "slug": "rihanna",
+    "category": "rnb",
+    "kind": "person",
+    "query": "rihanna",
+    "answer": "Rihanna",
+    "note": "Рианна. Фанаты годами мемят ожидание её альбома «R9».",
+    "difficulty": 1
+  },
+  {
+    "slug": "beyonce",
+    "category": "rnb",
+    "kind": "person",
+    "query": "beyonce",
+    "answer": "Beyoncé",
+    "note": "Бейонсе, героиня «Beychella» (Coachella 2018).",
+    "difficulty": 1
+  },
+  {
+    "slug": "weeknd",
+    "category": "rnb",
+    "kind": "person",
+    "query": "the weeknd",
+    "answer": "The Weeknd",
+    "note": "The Weeknd, в эру After Hours выходил на публику с забинтованным лицом.",
+    "difficulty": 1
+  },
+  {
+    "slug": "sza",
+    "category": "rnb",
+    "kind": "person",
+    "query": "sza",
+    "answer": "SZA",
+    "note": "SZA, автор альбома «SOS» (2022) и хита «Kill Bill».",
+    "difficulty": 1
+  },
+  {
+    "slug": "usher",
+    "category": "rnb",
+    "kind": "person",
+    "query": "usher",
+    "answer": "Usher",
+    "note": "Usher, хедлайнер шоу в перерыве Super Bowl LVIII (2024).",
+    "difficulty": 1
+  },
+  {
+    "slug": "mariah",
+    "category": "rnb",
+    "kind": "person",
+    "query": "mariah carey",
+    "answer": "Mariah Carey",
+    "note": "Мэрайя Кэри и её «All I Want for Christmas Is You», которую мемят каждую зиму.",
+    "difficulty": 1
+  }
+]

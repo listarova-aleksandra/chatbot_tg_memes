@@ -12,7 +12,7 @@ from app.services.user_service import ProfileStats
 from app.services.xp import level_progress
 
 CATEGORY_LABELS: dict[str, str] = {
-    QuizCategory.POSTIRONY: "🇷🇺 Русская постирония",
+    QuizCategory.POSTIRONY: "🇷🇺 Постирония и брейнрот",
     QuizCategory.NBA: "🏀 NBA",
     QuizCategory.WNBA: "🏀 WNBA",
     QuizCategory.HIPHOP: "🎤 Hip-Hop",
