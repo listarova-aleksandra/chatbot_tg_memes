@@ -19,11 +19,12 @@ from aiogram.methods import (
     AnswerCallbackQuery,
     EditMessageCaption,
     EditMessageText,
+    GetFile,
     SendAnimation,
     SendMessage,
     SendPhoto,
 )
-from aiogram.types import Chat, Message
+from aiogram.types import Chat, File, Message, PhotoSize
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
@@ -69,24 +70,30 @@ class FakeTelegramSession(BaseSession):
         super().__init__()
         self.calls: list[Any] = []
         self.fail_photos = False  # True: Telegram «не смог загрузить картинку по URL»
+        self.file_bytes = b""  # что «скачает» bot.download() (фото, присланное пользователем)
 
     async def close(self) -> None:
         pass
 
-    async def stream_content(self, *args: Any, **kwargs: Any):  # pragma: no cover
-        raise NotImplementedError
-        yield b""
+    async def stream_content(self, *args: Any, **kwargs: Any):
+        yield self.file_bytes
 
     async def make_request(self, bot: Bot, method: Any, timeout: Any = None) -> Any:
         self.calls.append(method)
         if isinstance(method, SendPhoto) and self.fail_photos:
             raise TelegramBadRequest(method=method, message="Bad Request: wrong file identifier/HTTP URL")
+        if isinstance(method, GetFile):
+            return File(file_id=method.file_id, file_unique_id="u", file_size=len(self.file_bytes), file_path="photos/x.jpg")
         if isinstance(method, SendMessage | EditMessageText | SendPhoto | EditMessageCaption | SendAnimation):
+            number = len(self.calls)
+            photo = [PhotoSize(file_id=f"fid-{number}", file_unique_id=f"uid-{number}", width=1, height=1)] \
+                if isinstance(method, SendPhoto) else None
             return Message(
-                message_id=len(self.calls) + 1000,
+                message_id=number + 1000,
                 date=datetime.now(),
                 chat=Chat(id=1, type="private"),
                 text=getattr(method, "text", None) or getattr(method, "caption", None),
+                photo=photo,
             )
         if isinstance(method, AnswerCallbackQuery):
             return True
@@ -124,6 +131,14 @@ class FakeApiClient:
             raise item
         return item
 
+    image_bytes: Any = b""  # что вернёт request_bytes (или исключение, которое он бросит)
+
+    async def request_bytes(self, service: str, url: str, **kwargs: Any) -> bytes:
+        self.calls.append({"service": service, "method": "GET-bytes", "url": url, **kwargs})
+        if isinstance(self.image_bytes, Exception):
+            raise self.image_bytes
+        return self.image_bytes
+
     async def close(self) -> None:
         pass
 
@@ -139,19 +154,21 @@ def make_dispatcher(settings: Settings, session_factory: async_sessionmaker[Asyn
     import importlib
 
     from app.bot import dispatcher as dispatcher_module
-    from app.bot.handlers import common, daily, errors, profile, quiz
+    from app.bot.handlers import common, daily, errors, meme, profile, quiz
     from app.bot.handlers import settings as settings_handlers
     from app.services.giphy_service import GiphyService
+    from app.services.imgflip_service import ImgflipService
     from app.services.reddit_service import RedditService
 
-    def factory(giphy: Any = None, reddit: Any = None):
-        for module in (errors, common, profile, quiz, daily, settings_handlers):
+    def factory(giphy: Any = None, reddit: Any = None, imgflip: Any = None):
+        for module in (errors, common, profile, quiz, daily, meme, settings_handlers):
             importlib.reload(module)
         return dispatcher_module.build_dispatcher(
             settings,
             session_factory,
             giphy=giphy or GiphyService(None, TTLCache(), None),
             reddit=reddit or RedditService(None, TTLCache(), None, None, "test"),
+            imgflip=imgflip or ImgflipService(FakeApiClient(ApiError("imgflip down")), TTLCache()),  # type: ignore[arg-type]
         )
 
     return factory

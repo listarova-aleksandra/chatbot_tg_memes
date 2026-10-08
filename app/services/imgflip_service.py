@@ -20,6 +20,8 @@ logger = logging.getLogger(__name__)
 API_URL = "https://api.imgflip.com/get_memes"
 CACHE_KEY = "imgflip:templates"
 CACHE_TTL_SECONDS = 6 * 60 * 60  # список популярных шаблонов меняется редко
+IMAGE_CACHE_TTL_SECONDS = 60 * 60
+MAX_IMAGE_BYTES = 5_000_000
 IMAGE_HOST_PREFIX = "https://i.imgflip.com/"  # картинки принимаем только с этого хоста
 MAX_NAME_LEN = 60
 
@@ -113,3 +115,18 @@ class ImgflipService:
         except ApiError as error:
             logger.warning("Imgflip недоступен (%s), используем запасные шаблоны", error)
             return TemplatesResult(list(FALLBACK_TEMPLATES), is_fallback=True)
+
+    async def get_template_image(self, template: MemeTemplate) -> bytes | None:
+        """Байты картинки шаблона (из кэша или с сервера). None для запасных шаблонов без картинки.
+
+        Бросает ApiError, если скачать не удалось: вызывающий код сообщит пользователю.
+        """
+        if template.url is None:
+            return None
+        key = f"imgflip:image:{template.id}"
+        cached = self.cache.get(key)
+        if cached is not None:
+            return cached
+        data = await self.client.request_bytes(self.name, template.url, max_bytes=MAX_IMAGE_BYTES)
+        self.cache.set(key, data, IMAGE_CACHE_TTL_SECONDS)
+        return data

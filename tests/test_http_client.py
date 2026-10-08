@@ -181,3 +181,30 @@ def test_backoff_grows_and_is_bounded() -> None:
     values = [backoff_delay(n) for n in (1, 2, 3, 4, 10)]
     assert 0.5 <= values[0] < 0.76 and 1.0 <= values[1] < 1.26 and 2.0 <= values[2] < 2.26
     assert values[3] < 4.26 and values[4] < 4.26  # потолок 4 с
+
+
+# ---------- Скачивание файлов ----------
+
+
+async def test_request_bytes_downloads_file_with_retry(server, client, delays) -> None:
+    scenario = Scenario([status(503), lambda _r: web.Response(body=b"\x89PNGdata")])
+    srv = await server(scenario)
+    assert await client.request_bytes("test", str(srv.make_url("/api"))) == b"\x89PNGdata"
+    assert scenario.calls == 2 and len(delays) == 1
+
+
+async def test_request_bytes_rejects_file_over_limit(server, client) -> None:
+    srv = await server(Scenario([lambda _r: web.Response(body=b"x" * 5000)]))
+    with pytest.raises(ApiBadResponseError, match="больше"):
+        await client.request_bytes("test", str(srv.make_url("/api")), max_bytes=1000)
+
+
+async def test_request_bytes_rejects_empty_file_and_4xx_without_retry(server, client) -> None:
+    srv = await server(Scenario([lambda _r: web.Response(body=b"")]))
+    with pytest.raises(ApiBadResponseError):
+        await client.request_bytes("test", str(srv.make_url("/api")))
+    scenario = Scenario([status(404)])
+    srv2 = await server(scenario)
+    with pytest.raises(ApiClientError):
+        await client.request_bytes("test", str(srv2.make_url("/api")))
+    assert scenario.calls == 1

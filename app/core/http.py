@@ -93,10 +93,40 @@ class ApiClient:
         service: имя сервиса для логов ("giphy"). В логи не попадают URL с параметрами:
                  в них лежат ключи API.
         """
+        return await self._with_retries(
+            service, method, url, params, headers, data, attempts, as_bytes=False, max_bytes=0
+        )
+
+    async def request_bytes(
+        self, service: str, url: str, *, max_bytes: int = 5_000_000, attempts: int | None = None
+    ) -> bytes:
+        """Скачивает файл (например, картинку шаблона) с теми же повторами и ограничениями.
+
+        Файл крупнее max_bytes отклоняется (ApiBadResponseError): защита от гигантских ответов.
+        """
+        return await self._with_retries(
+            service, "GET", url, None, None, None, attempts, as_bytes=True, max_bytes=max_bytes
+        )
+
+    async def _with_retries(
+        self,
+        service: str,
+        method: str,
+        url: str,
+        params: dict[str, Any] | None,
+        headers: dict[str, str] | None,
+        data: dict[str, Any] | None,
+        attempts: int | None,
+        *,
+        as_bytes: bool,
+        max_bytes: int,
+    ) -> Any:
         total_attempts = attempts or self.max_attempts
         for attempt in range(1, total_attempts + 1):
             try:
-                return await self._request_once(service, method, url, params, headers, data)
+                return await self._request_once(
+                    service, method, url, params, headers, data, as_bytes, max_bytes
+                )
             except _RetryableError as failure:
                 if attempt == total_attempts:
                     logger.error("%s: все %s попытки не удались: %s", service, total_attempts, failure.error)
@@ -117,6 +147,8 @@ class ApiClient:
         params: dict[str, Any] | None,
         headers: dict[str, str] | None,
         data: dict[str, Any] | None,
+        as_bytes: bool,
+        max_bytes: int,
     ) -> Any:
         all_headers = {"User-Agent": self.user_agent, **(headers or {})}
         try:
@@ -140,7 +172,10 @@ class ApiClient:
                     raise ApiAuthError(f"{service}: HTTP {status}, проверьте ключ API")
                 if status >= 400:
                     raise ApiClientError(f"{service}: HTTP {status}")
-                body = await response.text()
+                if as_bytes:
+                    body = await self._read_limited(service, response, max_bytes)
+                else:
+                    body = await response.text()
         except _RetryableError:
             raise
         except TimeoutError as error:  # asyncio.TimeoutError в Python 3.11+ это TimeoutError
@@ -150,10 +185,28 @@ class ApiClient:
                 ApiUnavailableError(f"{service}: ошибка соединения ({type(error).__name__})")
             ) from error
 
+        if as_bytes:
+            return body
+
         try:
             return json.loads(body)
         except ValueError as error:  # json.JSONDecodeError является ValueError
             raise ApiBadResponseError(f"{service}: ответ не является корректным JSON") from error
+
+
+    @staticmethod
+    async def _read_limited(service: str, response: aiohttp.ClientResponse, max_bytes: int) -> bytes:
+        """Читает тело по кускам и останавливается, как только оно превысило лимит."""
+        chunks: list[bytes] = []
+        size = 0
+        async for chunk in response.content.iter_chunked(64 * 1024):
+            size += len(chunk)
+            if size > max_bytes:
+                raise ApiBadResponseError(f"{service}: файл больше {max_bytes} байт")
+            chunks.append(chunk)
+        if size == 0:
+            raise ApiBadResponseError(f"{service}: пустой файл")
+        return b"".join(chunks)
 
 
 def _parse_retry_after(value: str | None) -> float | None:

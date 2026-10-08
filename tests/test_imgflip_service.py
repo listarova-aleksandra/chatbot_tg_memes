@@ -64,3 +64,35 @@ async def test_fallback_is_not_cached_so_service_recovers() -> None:
     service = make(client)
     assert (await service.get_templates()).is_fallback
     assert not (await service.get_templates()).is_fallback
+
+
+# ---------- Картинка шаблона ----------
+
+
+async def test_template_image_is_downloaded_once_and_cached() -> None:
+    client = FakeApiClient(response(meme(1), meme(2)))
+    client.image_bytes = b"PNGBYTES"
+    service = make(client)
+    template = (await service.get_templates()).templates[0]
+    assert await service.get_template_image(template) == b"PNGBYTES"
+    assert await service.get_template_image(template) == b"PNGBYTES"
+    downloads = [c for c in client.calls if c["method"] == "GET-bytes"]
+    assert len(downloads) == 1 and downloads[0]["url"] == template.url
+
+
+async def test_fallback_template_has_no_image_and_makes_no_request() -> None:
+    client = FakeApiClient(ApiUnavailableError("down"))
+    service = make(client)
+    fallback = (await service.get_templates()).templates[0]
+    calls_before = len(client.calls)
+    assert await service.get_template_image(fallback) is None
+    assert len(client.calls) == calls_before
+
+
+async def test_template_image_download_failure_raises_api_error() -> None:
+    client = FakeApiClient(response(meme(1), meme(2)))
+    client.image_bytes = ApiUnavailableError("down")
+    service = make(client)
+    template = (await service.get_templates()).templates[0]
+    with pytest.raises(ApiUnavailableError):
+        await service.get_template_image(template)
