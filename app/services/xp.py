@@ -20,6 +20,8 @@ XP_STREAK_BONUS = 5  # ...добавляется бонус за каждый т
 XP_PERFECT_GAME = 20  # бонус за игру без единой ошибки
 XP_MEME_CREATED = 5  # мем создан и сохранён
 XP_MEME_PUBLISHED = 5  # мем опубликован в сообществе
+RATING_BONUS_THRESHOLD = 5  # рейтинг мема, с которого автор получает бонус...
+XP_RATING_BONUS = 10  # ...один раз за мем
 
 
 def level_for_xp(xp: int) -> int:
