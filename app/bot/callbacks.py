@@ -21,3 +21,11 @@ class QuizCB(CallbackData, prefix="quiz"):
     action: str  # cat (выбор категории), ans (ответ), next (дальше), again (играть ещё)
     value: str = ""  # категория или номер выбранного варианта
     q: int = 0  # номер вопроса в игре: так отсекаются нажатия на кнопки старых вопросов
+
+
+class MemeCB(CallbackData, prefix="meme"):
+    # page (страница шаблонов), tpl (выбран шаблон), random, photo (своё фото),
+    # publish / save / redo (на экране готового мема), publish_saved, cancel
+    action: str
+    value: str = ""
+    page: int = 0
