@@ -16,7 +16,7 @@ from aiogram import F, Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import BufferedInputFile, CallbackQuery, Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.bot import texts, texts_quiz
@@ -60,6 +60,7 @@ async def start_game(
     state: FSMContext,
     user: User,
     session: AsyncSession,
+    giphy: GiphyService,
 ) -> None:
     # Значение пришло из callback_data: проверяем, что это настоящая категория.
     if callback_data.value not in {c.value for c in QuizCategory}:
@@ -81,11 +82,11 @@ async def start_game(
             "level_before": user.level,
         }
     )
-    await _show_question(callback, state, service, index=0)
+    await _show_question(callback, state, service, giphy, index=0)
 
 
 async def _show_question(
-    callback: CallbackQuery, state: FSMContext, service: QuizService, index: int
+    callback: CallbackQuery, state: FSMContext, service: QuizService, giphy: GiphyService, index: int
 ) -> None:
     data = await state.get_data()
     question = await service.get_question(data["question_ids"][index])
@@ -93,11 +94,19 @@ async def _show_question(
 
     await state.update_data(index=index, options=options)
     await state.set_state(QuizStates.answering)
+
+    media: str | BufferedInputFile | None = question.image_url
+    if media and question.media_type == "image":
+        # «Обычная картинка»: бот сам скачивает кадр, делает из него JPEG и отправляет как фото.
+        # Если не вышло, отправляется ссылка как есть (при неудаче покажется вопрос без картинки).
+        jpeg = await giphy.get_image_jpeg(media)
+        if jpeg is not None:
+            media = BufferedInputFile(jpeg, filename="question.jpg")
     await show_screen(
         callback,
         texts_quiz.format_question(question, options, index, len(data["question_ids"])),
         answer_kb(len(options), index),
-        media=question.image_url,
+        media=media,
     )
 
 
@@ -164,7 +173,7 @@ async def next_step(
     service = QuizService(session)
     next_index = data["index"] + 1
     if next_index < len(data["question_ids"]):
-        await _show_question(callback, state, service, next_index)
+        await _show_question(callback, state, service, giphy, next_index)
         return
 
     try:

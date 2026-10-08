@@ -111,7 +111,7 @@ async def test_full_game_all_correct(player: Player) -> None:
     assert await player.state() == QuizStates.choosing_category.state
     keyboard = player.telegram.of_type(EditMessageText)[-1].reply_markup.inline_keyboard
     labels = [b.text for row in keyboard for b in row]
-    assert "🏀 NBA" in labels and "🇷🇺 Постирония и брейнрот" in labels and "🎲 Смешанная" in labels
+    assert "🏀 MNBA" in labels and "🇷🇺 Постирония и брейнрот" in labels and "🎲 Смешанная" in labels
 
     await player.press(QuizCB(action="cat", value="nba").pack())
     assert await player.state() == QuizStates.answering.state

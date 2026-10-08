@@ -98,3 +98,92 @@ async def test_failure_is_not_cached_so_service_recovers() -> None:
     service = make(client)
     assert (await service.get_reaction("win", "nba")).status == UNAVAILABLE
     assert (await service.get_reaction("win", "nba")).status == OK  # API ожил, и GIF пошла
+
+
+# ---------- Кандидаты, картинки, закрепление ----------
+
+import io as _io  # noqa: E402
+
+from PIL import Image as _Image  # noqa: E402
+
+from app.services.giphy_service import GifCandidate, parse_candidates, still_to_jpeg  # noqa: E402
+
+
+def full_item(**kw) -> dict:
+    return {
+        "id": "abc", "title": "Caitlin Clark GIF by WNBA", "alt_text": "a basketball player", "username": "WNBA",
+        "images": {
+            "downsized": {"url": "https://media.giphy.com/media/abc/giphy.gif"},
+            "downsized_still": {"url": "https://media.giphy.com/media/abc/giphy_s.gif"},
+        },
+        **kw,
+    }
+
+
+def test_parse_candidates_reads_metadata_and_validates_hosts() -> None:
+    bad_still = full_item(id="x")
+    bad_still["images"]["downsized_still"] = {"url": "https://evil.example.com/s.gif"}
+    result = parse_candidates({"data": [full_item(), bad_still, {"images": {}}, "мусор"]})
+    assert len(result) == 2
+    first = result[0]
+    assert (first.gif_id, first.alt_text, first.username) == ("abc", "a basketball player", "wnba")  # канал в нижнем регистре
+    assert first.still_url.endswith("giphy_s.gif") and result[1].still_url is None  # чужая ссылка отброшена
+
+
+def test_parse_candidates_tolerates_missing_alt_text() -> None:
+    item = full_item()
+    del item["alt_text"]
+    assert parse_candidates({"data": [item]})[0].alt_text == ""
+
+
+def animated_gif() -> bytes:
+    frames = [_Image.new("RGB", (80, 60), color) for color in ("red", "blue", "green")]
+    out = _io.BytesIO()
+    frames[0].save(out, format="GIF", save_all=True, append_images=frames[1:], duration=100, loop=0)
+    return out.getvalue()
+
+
+def test_still_to_jpeg_takes_first_frame_and_downscales() -> None:
+    jpeg = still_to_jpeg(animated_gif())
+    image = _Image.open(_io.BytesIO(jpeg))
+    assert image.format == "JPEG" and image.size == (80, 60)
+    assert image.getpixel((40, 30))[0] > 200  # первый кадр красный
+    big = _io.BytesIO()
+    _Image.new("RGB", (3000, 1500)).save(big, format="PNG")
+    assert max(_Image.open(_io.BytesIO(still_to_jpeg(big.getvalue()))).size) == 1024
+
+
+def test_still_to_jpeg_rejects_garbage() -> None:
+    with pytest.raises(ApiBadResponseError):
+        still_to_jpeg(b"not an image")
+
+
+async def test_get_image_jpeg_downloads_converts_and_caches() -> None:
+    client = FakeApiClient()
+    client.image_bytes = animated_gif()
+    service = make(client)
+    url = "https://media.giphy.com/media/abc/giphy_s.gif"
+    first = await service.get_image_jpeg(url)
+    second = await service.get_image_jpeg(url)
+    assert first == second and _Image.open(_io.BytesIO(first)).format == "JPEG"
+    assert sum(1 for c in client.calls if c["method"] == "GET-bytes") == 1  # скачано один раз
+
+
+async def test_get_image_jpeg_returns_none_on_failure_foreign_host_or_disabled() -> None:
+    url = "https://media.giphy.com/media/abc/giphy_s.gif"
+    client = FakeApiClient()
+    client.image_bytes = ApiUnavailableError("down")
+    assert await make(client).get_image_jpeg(url) is None
+    client.image_bytes = b"garbage"
+    assert await make(client).get_image_jpeg(url) is None
+    client.calls.clear()
+    assert await make(client).get_image_jpeg("https://evil.example.com/x.gif") is None
+    assert client.calls == []  # на чужой хост бот не ходит
+    assert await make(client, key=None).get_image_jpeg(url) is None
+
+
+async def test_get_candidate_by_id() -> None:
+    client = FakeApiClient({"data": full_item()})
+    candidate = await make(client).get_candidate("abc")
+    assert candidate.gif_id == "abc" and client.calls[0]["url"].endswith("/gifs/abc")
+    assert await make(FakeApiClient({"data": []})).get_candidate("zzz") is None
