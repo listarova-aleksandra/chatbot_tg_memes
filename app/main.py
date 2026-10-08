@@ -26,6 +26,7 @@ from app.core.logging import setup_logging
 from app.database.seed import seed_questions
 from app.database.session import create_engine, create_session_factory
 from app.services.giphy_service import GiphyService
+from app.services.imgflip_service import ImgflipService
 from app.services.quiz_sources import load_gif_entries, retire_source, sync_giphy_questions
 from app.services.reddit_service import RedditService
 
@@ -68,6 +69,7 @@ async def main() -> None:
         timeout=settings.http_timeout_seconds, max_attempts=settings.http_max_retries
     )
     cache = TTLCache()
+    imgflip = ImgflipService(api_client, cache)
     giphy = GiphyService(
         api_client, cache, settings.giphy_api_key.get_secret_value() if settings.giphy_api_key else None
     )
@@ -103,7 +105,7 @@ async def main() -> None:
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
 
-    dp = build_dispatcher(settings, session_factory, giphy=giphy, reddit=reddit)
+    dp = build_dispatcher(settings, session_factory, giphy=giphy, reddit=reddit, imgflip=imgflip)
 
     try:
         await set_bot_commands(bot)

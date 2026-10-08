@@ -18,6 +18,8 @@ XP_DIFFICULTY_BONUS = {1: 0, 2: 2, 3: 5}  # надбавка за средний
 STREAK_BONUS_FROM = 3  # с третьего правильного ответа подряд...
 XP_STREAK_BONUS = 5  # ...добавляется бонус за каждый такой ответ
 XP_PERFECT_GAME = 20  # бонус за игру без единой ошибки
+XP_MEME_CREATED = 5  # мем создан и сохранён
+XP_MEME_PUBLISHED = 5  # мем опубликован в сообществе
 
 
 def level_for_xp(xp: int) -> int:

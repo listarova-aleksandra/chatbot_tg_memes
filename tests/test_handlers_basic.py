@@ -127,7 +127,7 @@ async def test_stub_section_answers_with_alert(
     session_factory: async_sessionmaker[AsyncSession], make_dispatcher: Any,
 ) -> None:
     dp = make_dispatcher()
-    await dp.feed_raw_update(bot, callback_update(MenuCB(action="meme").pack()))
+    await dp.feed_raw_update(bot, callback_update(MenuCB(action="community").pack()))
     answer = telegram.of_type(AnswerCallbackQuery)[-1]
     assert answer.show_alert is True and "следующем этапе" in answer.text
 

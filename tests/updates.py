@@ -40,3 +40,25 @@ def callback_update(data: str, update_id: int = 2, *, photo: bool = False) -> di
             "message": message,
         },
     }
+
+
+def photo_update(update_id: int = 1, file_id: str = "user-photo", file_size: int = 1000) -> dict[str, Any]:
+    """Пользователь прислал фото."""
+    return {
+        "update_id": update_id,
+        "message": {
+            "message_id": 1, "date": 0, "chat": CHAT, "from": FROM,
+            "photo": [{"file_id": file_id, "file_unique_id": "u", "width": 100, "height": 100, "file_size": file_size}],
+        },
+    }
+
+
+def sticker_update(update_id: int = 1) -> dict[str, Any]:
+    return {
+        "update_id": update_id,
+        "message": {
+            "message_id": 1, "date": 0, "chat": CHAT, "from": FROM,
+            "sticker": {"file_id": "s", "file_unique_id": "su", "type": "regular", "width": 1, "height": 1,
+                        "is_animated": False, "is_video": False},
+        },
+    }
