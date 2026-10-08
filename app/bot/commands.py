@@ -12,6 +12,7 @@ COMMANDS = [
     BotCommand(command="menu", description="Главное меню"),
     BotCommand(command="play", description="Играть в викторину"),
     BotCommand(command="meme", description="Создать мем"),
+    BotCommand(command="community", description="Лента сообщества"),
     BotCommand(command="daily", description="Мем дня"),
     BotCommand(command="profile", description="Мой профиль"),
     BotCommand(command="history", description="История игр"),

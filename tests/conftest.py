@@ -18,6 +18,7 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.methods import (
     AnswerCallbackQuery,
     EditMessageCaption,
+    EditMessageMedia,
     EditMessageText,
     GetFile,
     SendAnimation,
@@ -84,7 +85,7 @@ class FakeTelegramSession(BaseSession):
             raise TelegramBadRequest(method=method, message="Bad Request: wrong file identifier/HTTP URL")
         if isinstance(method, GetFile):
             return File(file_id=method.file_id, file_unique_id="u", file_size=len(self.file_bytes), file_path="photos/x.jpg")
-        if isinstance(method, SendMessage | EditMessageText | SendPhoto | EditMessageCaption | SendAnimation):
+        if isinstance(method, SendMessage | EditMessageText | SendPhoto | EditMessageCaption | SendAnimation | EditMessageMedia):
             number = len(self.calls)
             photo = [PhotoSize(file_id=f"fid-{number}", file_unique_id=f"uid-{number}", width=1, height=1)] \
                 if isinstance(method, SendPhoto) else None
@@ -154,14 +155,14 @@ def make_dispatcher(settings: Settings, session_factory: async_sessionmaker[Asyn
     import importlib
 
     from app.bot import dispatcher as dispatcher_module
-    from app.bot.handlers import common, daily, errors, meme, profile, quiz
+    from app.bot.handlers import common, community, daily, errors, meme, profile, quiz
     from app.bot.handlers import settings as settings_handlers
     from app.services.giphy_service import GiphyService
     from app.services.imgflip_service import ImgflipService
     from app.services.reddit_service import RedditService
 
     def factory(giphy: Any = None, reddit: Any = None, imgflip: Any = None):
-        for module in (errors, common, profile, quiz, daily, meme, settings_handlers):
+        for module in (errors, common, profile, quiz, daily, meme, community, settings_handlers):
             importlib.reload(module)
         return dispatcher_module.build_dispatcher(
             settings,
