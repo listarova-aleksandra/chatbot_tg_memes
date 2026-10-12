@@ -221,7 +221,7 @@ async def save_meme(
     result = await MemeService(session).create_meme(
         user, data["preview_file_id"], data.get("template_name"), data.get("top_text", ""), data["bottom_text"], publish
     )
-    text = texts_meme.format_created(publish, result.xp_awarded, result.level_change)
+    text = texts_meme.format_created(publish, result.xp_awarded, result.level_change, result.new_achievements)
     kb = done_kb() if publish else saved_kb(result.meme.id)
     await show_screen(callback, text, kb, keep_media=True)
 
@@ -249,7 +249,7 @@ async def publish_saved(
         await callback.answer(texts_meme.ALREADY_PUBLISHED, show_alert=True)
         return
     await show_screen(
-        callback, texts_meme.format_published(result.xp_awarded, result.level_change), done_kb(), keep_media=True
+        callback, texts_meme.format_published(result.xp_awarded, result.level_change, result.new_achievements), done_kb(), keep_media=True
     )
 
 

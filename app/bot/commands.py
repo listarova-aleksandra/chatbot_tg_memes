@@ -14,6 +14,8 @@ COMMANDS = [
     BotCommand(command="meme", description="Создать мем"),
     BotCommand(command="community", description="Лента сообщества"),
     BotCommand(command="daily", description="Мем дня"),
+    BotCommand(command="top", description="Лидерборд"),
+    BotCommand(command="achievements", description="Достижения"),
     BotCommand(command="profile", description="Мой профиль"),
     BotCommand(command="history", description="История игр"),
     BotCommand(command="settings", description="Настройки"),

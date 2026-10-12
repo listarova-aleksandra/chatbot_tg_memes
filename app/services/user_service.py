@@ -31,6 +31,7 @@ class ProfileStats:
     total_answers: int
     memes_created: int
     memes_rating: int  # суммарный рейтинг опубликованных мемов
+    achievements_earned: int = 0
 
     @property
     def accuracy(self) -> float:
@@ -102,12 +103,16 @@ class UserService:
                 Meme.author_id == user.id, Meme.is_published.is_(True)
             )
         )
+        achievements_earned = await self.session.scalar(
+            select(func.count()).select_from(UserAchievement).where(UserAchievement.user_id == user.id)
+        )
         return ProfileStats(
             games=games or 0,
             correct_answers=int(correct_answers),
             total_answers=total_answers,
             memes_created=memes_created or 0,
             memes_rating=int(memes_rating or 0),
+            achievements_earned=achievements_earned or 0,
         )
 
     # ---------- Настройки ----------

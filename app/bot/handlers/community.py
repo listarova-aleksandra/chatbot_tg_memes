@@ -78,7 +78,7 @@ async def vote(
 
     if result.bonus_xp and result.author_notify and result.author_telegram_id:
         try:  # уведомление автору: не получилось отправить (бот заблокирован), не страшно
-            await callback.bot.send_message(result.author_telegram_id, t.format_author_bonus(result.bonus_xp))
+            await callback.bot.send_message(result.author_telegram_id, t.format_author_bonus(result.bonus_xp, result.author_achievements))
         except TelegramAPIError as error:
             logger.info("Не удалось уведомить автора мема: %s", error)
 

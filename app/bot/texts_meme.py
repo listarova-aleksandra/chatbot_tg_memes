@@ -1,5 +1,7 @@
 """Тексты генератора мемов (HTML)."""
 
+from app.bot.texts_gamification import format_new_achievements
+from app.services.achievements import AchievementDef
 from app.services.gamification import LevelChange
 from app.services.meme_renderer import MAX_TEXT_LEN
 
@@ -53,13 +55,15 @@ STALE = "Этот сценарий уже неактуален. Начни за�
 ALREADY_PUBLISHED = "Этот мем уже опубликован или недоступен."
 
 
-def format_created(published: bool, xp: int, change: LevelChange) -> str:
+def format_created(
+    published: bool, xp: int, change: LevelChange, achievements: tuple[AchievementDef, ...] = ()
+) -> str:
     head = "📢 <b>Мем опубликован в сообществе!</b>" if published else "💾 <b>Мем сохранён!</b>"
     text = f"{head}\n✨ +{xp} XP"
     if change.leveled_up:
         text += f"\n⭐ Новый уровень: <b>{change.old_level} → {change.new_level}</b> 🎉"
-    return text
+    return text + format_new_achievements(achievements)
 
 
-def format_published(xp: int, change: LevelChange) -> str:
-    return format_created(True, xp, change)
+def format_published(xp: int, change: LevelChange, achievements: tuple[AchievementDef, ...] = ()) -> str:
+    return format_created(True, xp, change, achievements)

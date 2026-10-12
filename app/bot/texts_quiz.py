@@ -4,6 +4,7 @@ from html import escape
 
 from app.bot.keyboards.quiz import LETTERS
 from app.bot.texts import category_label
+from app.bot.texts_gamification import format_new_achievements
 from app.database.models import QuizQuestion
 from app.services.quiz_service import AnswerResult, GameHistoryItem, GameResult
 
@@ -67,7 +68,7 @@ def format_result(result: GameResult) -> str:
     else:
         lines.append(f"⭐ Уровень: {change.new_level}")
     lines += ["", verdict_for(result.accuracy)]
-    return "\n".join(lines)
+    return "\n".join(lines) + format_new_achievements(result.new_achievements)
 
 
 def format_history(items: list[GameHistoryItem]) -> str:

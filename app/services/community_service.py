@@ -16,7 +16,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.models import Meme, MemeVote, User
+from app.services.achievements import AchievementDef, AchievementService
 from app.services.gamification import add_xp
+from app.services.names import display_name
 from app.services.xp import RATING_BONUS_THRESHOLD, XP_RATING_BONUS
 
 logger = logging.getLogger(__name__)
@@ -55,10 +57,7 @@ class VoteResult:
     bonus_xp: int  # XP, начисленные автору за рейтинг (0, если бонуса не было)
     author_telegram_id: int | None
     author_notify: bool
-
-
-def _author_name(username: str | None, first_name: str) -> str:
-    return f"@{username}" if username else first_name
+    author_achievements: tuple[AchievementDef, ...] = ()  # новые достижения автора
 
 
 class CommunityService:
@@ -107,7 +106,7 @@ class CommunityService:
         return FeedItem(
             meme_id=meme.id,
             file_id=meme.image_file_id,
-            author_name=_author_name(username, first_name),
+            author_name=display_name(username, first_name),
             author_id=meme.author_id,
             published_at=meme.published_at,
             likes=meme.likes_count,
@@ -146,24 +145,28 @@ class CommunityService:
         )
         await self.session.refresh(meme)
 
-        bonus_xp, author_telegram_id, author_notify = await self._maybe_award_rating_bonus(meme)
-        item = (await self.get_item(meme_id, user))
+        bonus_xp, author_telegram_id, author_notify, achievements = await self._maybe_award_rating_bonus(meme)
+        item = await self.get_item(meme_id, user)
         assert item is not None
-        return VoteResult(item, bonus_xp, author_telegram_id, author_notify)
+        return VoteResult(item, bonus_xp, author_telegram_id, author_notify, tuple(achievements))
 
-    async def _maybe_award_rating_bonus(self, meme: Meme) -> tuple[int, int | None, bool]:
+    async def _maybe_award_rating_bonus(
+        self, meme: Meme
+    ) -> tuple[int, int | None, bool, list[AchievementDef]]:
         """Автору +10 XP, когда рейтинг мема впервые достиг порога. Бонус выдаётся один раз:
         флаг bonus_awarded меняется условным UPDATE, который сработает только для одного голоса."""
         if meme.rating < RATING_BONUS_THRESHOLD:
-            return 0, None, False
+            return 0, None, False, []
         claimed = await self.session.execute(
             update(Meme)
             .where(Meme.id == meme.id, Meme.bonus_awarded.is_(False), Meme.rating >= RATING_BONUS_THRESHOLD)
             .values(bonus_awarded=True)
         )
         if claimed.rowcount != 1:
-            return 0, None, False
+            return 0, None, False, []
         author = await self.session.get(User, meme.author_id)
         add_xp(author, XP_RATING_BONUS)
         logger.info("Автор мема id=%s получил бонус за рейтинг", meme.id)
-        return XP_RATING_BONUS, author.telegram_id, author.notifications_enabled
+        # Рейтинг мема достиг порога: у автора может открыться достижение «Народный любимец».
+        achievements = await AchievementService(self.session).check_and_award(author)
+        return XP_RATING_BONUS, author.telegram_id, author.notifications_enabled, achievements

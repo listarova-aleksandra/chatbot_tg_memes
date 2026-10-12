@@ -15,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.base import utcnow
 from app.database.models import QuizAttempt, QuizCategory, QuizQuestion, QuizSession, User
+from app.services.achievements import AchievementDef, AchievementService
 from app.services.gamification import LevelChange, add_xp
 from app.services.xp import QUESTIONS_PER_GAME, XP_PERFECT_GAME, answer_xp
 
@@ -52,6 +53,7 @@ class GameResult:
     xp_earned: int
     perfect_bonus: int
     level_change: LevelChange
+    new_achievements: tuple[AchievementDef, ...] = ()
 
     @property
     def accuracy(self) -> float:
@@ -183,6 +185,8 @@ class QuizService:
 
         quiz.finished_at = utcnow()
         await self.session.flush()
+        # Игра завершена: проверяем, не открылись ли достижения (учитывается и эта игра).
+        new_achievements = await AchievementService(self.session).check_and_award(user)
         return GameResult(
             category=quiz.category,
             correct=quiz.correct_count,
@@ -190,6 +194,7 @@ class QuizService:
             xp_earned=quiz.xp_earned,
             perfect_bonus=bonus,
             level_change=LevelChange(old_level=level_before, new_level=user.level),
+            new_achievements=tuple(new_achievements),
         )
 
     async def _get_open_game(self, user: User, session_id: int) -> QuizSession:

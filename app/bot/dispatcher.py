@@ -7,7 +7,7 @@ from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from app.bot.handlers import common, community, daily, errors, meme, profile, quiz, settings
+from app.bot.handlers import common, community, daily, errors, gamification, meme, profile, quiz, settings
 from app.bot.middlewares.db import DbSessionMiddleware
 from app.bot.middlewares.user import UserMiddleware
 from app.core.config import Settings
@@ -44,5 +44,6 @@ def build_dispatcher(
     dp.include_router(daily.router)
     dp.include_router(meme.router)
     dp.include_router(community.router)
+    dp.include_router(gamification.router)
     dp.include_router(settings.router)
     return dp
