@@ -122,16 +122,6 @@ async def test_reset_requires_confirmation(
         assert (user.xp, user.level) == (0, 1)
 
 
-async def test_stub_section_answers_with_alert(
-    bot: Bot, telegram: FakeTelegramSession, settings: Settings,
-    session_factory: async_sessionmaker[AsyncSession], make_dispatcher: Any,
-) -> None:
-    dp = make_dispatcher()
-    await dp.feed_raw_update(bot, callback_update(MenuCB(action="top").pack()))
-    answer = telegram.of_type(AnswerCallbackQuery)[-1]
-    assert answer.show_alert is True and "следующем этапе" in answer.text
-
-
 async def test_handler_error_is_caught_and_db_rolled_back(
     bot: Bot, telegram: FakeTelegramSession, settings: Settings,
     session_factory: async_sessionmaker[AsyncSession], make_dispatcher: Any,

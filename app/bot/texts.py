@@ -7,6 +7,7 @@
 from html import escape
 
 from app.database.models import QuizCategory, QuizQuestion, User
+from app.services.achievements import ACHIEVEMENTS
 from app.services.reddit_service import RedditMeme
 from app.services.user_service import ProfileStats
 from app.services.xp import level_progress
@@ -25,8 +26,6 @@ GIF_UNAVAILABLE = "🎞 GIF-сервис временно не отвечает.
 
 MAIN_MENU = "📋 <b>Главное меню</b>\nВыбирай, чем займёмся 👇"
 
-COMING_SOON = "🚧 Этот раздел появится на следующем этапе разработки"
-
 GENERIC_ERROR = "Что-то пошло не так 😵 Попробуй ещё раз или вернись в /menu"
 
 HELP = (
@@ -38,6 +37,8 @@ HELP = (
     "/play — сыграть в викторину\n"
     "/meme — создать мем\n"
     "/community — лента сообщества\n"
+    "/top — лидерборд\n"
+    "/achievements — достижения\n"
     "/daily — мем дня\n"
     "/profile — твой профиль\n"
     "/history — история игр\n"
@@ -82,6 +83,7 @@ def format_profile(user: User, stats: ProfileStats) -> str:
         f"✅ Правильных ответов: <b>{stats.correct_answers}</b>\n"
         f"📊 Accuracy: <b>{stats.accuracy:.0f}%</b>\n"
         f"🔥 Лучшая серия: <b>{user.best_streak}</b>\n\n"
+        f"🏅 Достижения: <b>{stats.achievements_earned}/{len(ACHIEVEMENTS)}</b>\n"
         f"🖼 Создано мемов: <b>{stats.memes_created}</b>\n"
         f"👍 Рейтинг мемов: <b>{stats.memes_rating}</b>"
     )

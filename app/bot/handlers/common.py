@@ -45,13 +45,3 @@ async def cmd_cancel(message: Message, state: FSMContext) -> None:
         return
     await state.clear()
     await message.answer("Отменено ✅", reply_markup=main_menu_kb())
-
-
-# Разделы, которые будут реализованы на следующих этапах. Пока кнопка не молчит,
-# а показывает всплывающее уведомление. Эти заглушки удаляются по мере реализации.
-STUB_ACTIONS = {"top", "achievements"}
-
-
-@router.callback_query(MenuCB.filter(F.action.in_(STUB_ACTIONS)))
-async def section_stub(callback: CallbackQuery) -> None:
-    await callback.answer(texts.COMING_SOON, show_alert=True)
