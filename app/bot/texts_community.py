@@ -2,6 +2,8 @@
 
 from html import escape
 
+from app.bot.texts_gamification import format_new_achievements
+from app.services.achievements import AchievementDef
 from app.services.community_service import POPULAR, FeedItem
 
 EMPTY_FEED = (
@@ -28,5 +30,6 @@ def format_item(item: FeedItem, sort: str, page: int, total: int, is_own: bool) 
     return "\n".join(lines)
 
 
-def format_author_bonus(xp: int) -> str:
-    return f"🔥 Твой мем набрал высокий рейтинг в сообществе! Бонус: +{xp} XP"
+def format_author_bonus(xp: int, achievements: tuple[AchievementDef, ...] = ()) -> str:
+    text = f"🔥 Твой мем набрал высокий рейтинг в сообществе! Бонус: +{xp} XP"
+    return text + format_new_achievements(achievements)

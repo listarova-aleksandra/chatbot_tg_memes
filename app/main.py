@@ -26,6 +26,7 @@ from app.core.logging import setup_logging
 from app.database.migrations_check import migration_problem
 from app.database.seed import seed_questions
 from app.database.session import create_engine, create_session_factory
+from app.services.achievements import seed_achievements
 from app.services.giphy_service import GiphyService
 from app.services.imgflip_service import ImgflipService
 from app.services.quiz_sources import load_gif_entries, retire_source, sync_giphy_questions
@@ -66,9 +67,10 @@ async def main() -> None:
     try:
         async with session_factory() as session:
             await seed_questions(session)
+            await seed_achievements(session)
             await session.commit()
     except Exception:
-        logger.exception("Не удалось загрузить вопросы. Применены ли миграции (alembic upgrade head)?")
+        logger.exception("Не удалось загрузить вопросы и достижения. Применены ли миграции (alembic upgrade head)?")
         await engine.dispose()
         sys.exit(1)
 

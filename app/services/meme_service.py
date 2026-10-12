@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.base import utcnow
 from app.database.models import Meme, User
+from app.services.achievements import AchievementDef, AchievementService
 from app.services.gamification import LevelChange, add_xp
 from app.services.xp import XP_MEME_CREATED, XP_MEME_PUBLISHED
 
@@ -27,6 +28,7 @@ class MemeResult:
     meme: Meme
     xp_awarded: int
     level_change: LevelChange
+    new_achievements: tuple[AchievementDef, ...] = ()
 
 
 class MemeService:
@@ -58,7 +60,8 @@ class MemeService:
         xp = XP_MEME_CREATED + (XP_MEME_PUBLISHED if publish else 0)
         change = add_xp(user, xp)
         logger.info("Мем id=%s создан (опубликован=%s)", meme.id, publish)
-        return MemeResult(meme, xp, change)
+        new_achievements = await AchievementService(self.session).check_and_award(user)
+        return MemeResult(meme, xp, change, tuple(new_achievements))
 
     async def publish_meme(self, user: User, meme_id: int) -> MemeResult:
         """Публикует ранее сохранённый мем. XP начисляется один раз.
@@ -77,4 +80,5 @@ class MemeService:
         meme = await self.session.get(Meme, meme_id)
         await self.session.refresh(meme)  # UPDATE выполнен в обход объекта: перечитываем строку
         change = add_xp(user, XP_MEME_PUBLISHED)
-        return MemeResult(meme, XP_MEME_PUBLISHED, change)
+        new_achievements = await AchievementService(self.session).check_and_award(user)
+        return MemeResult(meme, XP_MEME_PUBLISHED, change, tuple(new_achievements))

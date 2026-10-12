@@ -18,7 +18,8 @@ class User(Base):
     username: Mapped[str | None] = mapped_column(String(64))
     first_name: Mapped[str] = mapped_column(String(128))
 
-    xp: Mapped[int] = mapped_column(Integer, default=0)
+    # Индекс по xp: лидерборд сортирует и считает место именно по этому столбцу.
+    xp: Mapped[int] = mapped_column(Integer, default=0, index=True)
     # level выводится из xp (см. сервис геймификации) и хранится для удобства.
     level: Mapped[int] = mapped_column(Integer, default=1)
     # Серия правильных ответов подряд (между играми). Нужна для бонуса и достижения Big Brain.

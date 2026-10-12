@@ -155,14 +155,14 @@ def make_dispatcher(settings: Settings, session_factory: async_sessionmaker[Asyn
     import importlib
 
     from app.bot import dispatcher as dispatcher_module
-    from app.bot.handlers import common, community, daily, errors, meme, profile, quiz
+    from app.bot.handlers import common, community, daily, errors, gamification, meme, profile, quiz
     from app.bot.handlers import settings as settings_handlers
     from app.services.giphy_service import GiphyService
     from app.services.imgflip_service import ImgflipService
     from app.services.reddit_service import RedditService
 
     def factory(giphy: Any = None, reddit: Any = None, imgflip: Any = None):
-        for module in (errors, common, profile, quiz, daily, meme, community, settings_handlers):
+        for module in (errors, common, profile, quiz, daily, meme, community, gamification, settings_handlers):
             importlib.reload(module)
         return dispatcher_module.build_dispatcher(
             settings,
