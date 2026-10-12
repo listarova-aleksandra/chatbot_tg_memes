@@ -7,14 +7,20 @@
 """
 
 from functools import lru_cache
+from pathlib import Path
 
-from pydantic import SecretStr, field_validator
+from pydantic import SecretStr, ValidationError, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+# .env ищется в корне проекта, а не в текущей папке терминала: бот запускается одинаково,
+# откуда бы ни вызвали `python -m app.main`.
+ENV_FILE = Path(__file__).resolve().parent.parent.parent / ".env"
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=ENV_FILE,
         env_file_encoding="utf-8",
         extra="ignore",  # лишние переменные в .env не считаем ошибкой
     )
@@ -72,3 +78,34 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Настройки создаются один раз и переиспользуются (lru_cache)."""
     return Settings()  # type: ignore[call-arg]  # обязательные поля берутся из окружения
+
+
+def format_settings_error(error: ValidationError, env_file: Path = ENV_FILE) -> str:
+    """Понятное объяснение ошибки настроек вместо длинной трассировки.
+
+    Значения переменных не выводятся (в них могут быть секреты), только их имена и причина.
+    """
+    problems = []
+    for item in error.errors():
+        name = str(item["loc"][0]).upper() if item["loc"] else "?"
+        if item["type"] == "missing":
+            problems.append(f"  - {name}: не задана")
+        else:
+            problems.append(f"  - {name}: {item['msg'].removeprefix('Value error, ')}")
+
+    lines = ["", "НЕ УДАЛОСЬ ЗАГРУЗИТЬ НАСТРОЙКИ", *problems, ""]
+    if not env_file.exists():
+        lines += [
+            f"Файл с настройками не найден: {env_file}",
+            "Создайте его из шаблона (в корне проекта):",
+            "  Windows (PowerShell):  copy .env.example .env",
+            "  macOS / Linux:         cp .env.example .env",
+            "Затем откройте .env и впишите BOT_TOKEN (токен от @BotFather).",
+            "Если файл есть, но называется .env.txt, переименуйте его: Windows скрывает расширения.",
+        ]
+    else:
+        lines += [
+            f"Файл {env_file} найден, но значения в нём не заполнены или неверны.",
+            "Откройте его и впишите значения после знака «=» (без кавычек и пробелов).",
+        ]
+    return "\n".join(lines) + "\n"
