@@ -24,6 +24,7 @@ from app.core.cache import TTLCache
 from app.core.config import format_settings_error, get_settings
 from app.core.http import ApiClient
 from app.core.logging import setup_logging
+from app.database.connection_hint import db_connection_hint
 from app.database.migrations_check import migration_problem
 from app.database.seed import seed_questions
 from app.database.session import create_engine, create_session_factory
@@ -54,10 +55,8 @@ async def main() -> None:
     try:
         async with engine.connect() as connection:
             await connection.execute(text("SELECT 1"))
-    except Exception:
-        logger.exception(
-            "Не удалось подключиться к БД. Запущен ли PostgreSQL и верен ли DATABASE_URL?"
-        )
+    except Exception as error:
+        logger.error("%s", db_connection_hint(error, settings.database_url))
         await engine.dispose()
         sys.exit(1)
 
