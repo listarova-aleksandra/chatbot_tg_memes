@@ -15,12 +15,13 @@ from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.exceptions import TelegramNetworkError, TelegramUnauthorizedError
+from pydantic import ValidationError
 from sqlalchemy import text
 
 from app.bot.commands import set_bot_commands
 from app.bot.dispatcher import build_dispatcher
 from app.core.cache import TTLCache
-from app.core.config import get_settings
+from app.core.config import format_settings_error, get_settings
 from app.core.http import ApiClient
 from app.core.logging import setup_logging
 from app.database.migrations_check import migration_problem
@@ -36,7 +37,12 @@ logger = logging.getLogger(__name__)
 
 
 async def main() -> None:
-    settings = get_settings()
+    try:
+        settings = get_settings()
+    except ValidationError as error:
+        # Логирование ещё не настроено (уровень берётся из настроек), поэтому пишем в stderr.
+        sys.stderr.write(format_settings_error(error))
+        sys.exit(1)
     setup_logging(settings.log_level)
     logger.info("Запуск МемоМастера...")
 
