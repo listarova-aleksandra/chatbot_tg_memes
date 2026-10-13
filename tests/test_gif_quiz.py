@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from aiogram.methods import DeleteMessage, EditMessageCaption, EditMessageText, SendAnimation, SendMessage, SendPhoto
+from aiogram.methods import AnswerCallbackQuery, DeleteMessage, EditMessageCaption, EditMessageText, SendAnimation, SendMessage, SendPhoto
 from aiogram.types import BufferedInputFile
 from PIL import Image
 from sqlalchemy import select
@@ -312,3 +312,47 @@ async def test_failed_image_download_falls_back_and_game_goes_on(
     assert (await p.question()).media_type == "image"
     await p.answer(correct=True, photo=True)  # игра продолжается
     assert "Верно" in p.last_text()
+
+
+async def test_image_download_is_single_attempt_and_callback_answered_first(media_player: Player) -> None:
+    """Игрок не должен ждать повторов Giphy, а кнопка не должна «протухнуть» за время загрузки."""
+    p = media_player
+    for _ in range(6):  # в категории и GIF, и картинки: ждём вопрос-картинку
+        await p.start_game("nba")
+        if (await p.question()).media_type == "image":
+            break
+    downloads = [c for c in giphy_calls(p) if c["method"] == "GET-bytes"]
+    assert downloads and all(c["attempts"] == 1 for c in downloads)
+    calls = p.telegram.calls
+    last_photo = max(i for i, c in enumerate(calls) if isinstance(c, SendPhoto))
+    assert any(isinstance(c, AnswerCallbackQuery) for c in calls[:last_photo])  # ответили до отправки фото
+
+
+def giphy_calls(p: Player) -> list[dict[str, Any]]:
+    return p.dp.workflow_data["giphy"].client.calls
+
+
+async def test_expired_callback_does_not_break_the_game(
+    media_player: Player, caplog: pytest.LogCaptureFixture
+) -> None:
+    """«query is too old» (Giphy тормозил) не считается ошибкой: экран всё равно показан."""
+    p = media_player
+    p.telegram.callback_error = "query is too old and response timeout expired or query ID is invalid"
+    await p.start_game("nba")
+    assert await p.state() == "QuizStates:answering"
+    await p.answer(correct=True, photo=True)
+    assert "Верно" in p.last_text()
+    assert not [r for r in caplog.records if r.levelname == "ERROR"]
+
+
+async def test_other_telegram_errors_on_callback_are_not_swallowed(media_player: Player) -> None:
+    from aiogram.exceptions import TelegramBadRequest
+
+    from app.bot.helpers import safe_answer
+
+    class Boom:
+        async def answer(self, *args: Any, **kwargs: Any) -> None:
+            raise TelegramBadRequest(method=None, message="Bad Request: something else")  # type: ignore[arg-type]
+
+    with pytest.raises(TelegramBadRequest):
+        await safe_answer(Boom())  # type: ignore[arg-type]
