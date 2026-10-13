@@ -1,525 +1,136 @@
 [
-  {
-    "slug": "nihilist-penguin",
-    "category": "internet",
-    "kind": "meme",
-    "media": "gif",
-    "query": "nihilist penguin",
-    "answer": "Nihilist Penguin",
-    "note": "Пингвин Адели из документалки Вернера Херцога «Встречи на краю света» (2007) уходит от колонии вглубь материка. В январе 2026 кадр стал мемом «всё бессмысленно, ухожу».",
-    "difficulty": 2,
-    "hide": [
-      "nihilist",
-      "herzog"
-    ]
-  },
-  {
-    "slug": "punch-monkey",
-    "category": "internet",
-    "kind": "meme",
-    "media": "gif",
-    "query": "punch monkey ikea orangutan",
-    "answer": "Punch the Monkey",
-    "note": "Детёныш макаки Панч из японского зоопарка Итикава, которого отвергла мать, и плюшевый орангутан из IKEA, к которому он прижимается. Мем февраля 2026.",
-    "difficulty": 2,
-    "hide": [
-      "punch"
-    ]
-  },
-  {
-    "slug": "six-seven",
-    "category": "internet",
-    "kind": "meme",
-    "media": "image",
-    "query": "6 7 meme",
-    "answer": "6-7 (six seven)",
-    "note": "Мем из трека Skrilla «Doot Doot (6 7)» и баскетбольных эдитов про ЛаМело Болла (рост 6'7\"). Dictionary.com выбрал «67» словом 2025 года, а в 2026 мем дошёл до жизни вне сети.",
-    "difficulty": 2,
-    "hide": [
-      "6 7",
-      "67",
-      "six seven",
-      "six-seven"
-    ]
-  },
-  {
-    "slug": "chicken-jockey",
-    "category": "internet",
-    "kind": "meme",
-    "media": "gif",
-    "query": "chicken jockey minecraft movie",
-    "answer": "Chicken Jockey",
-    "note": "Фраза из трейлера «Minecraft в кино» (2025): Джек Блэк в роли Стива объявляет «Chicken jockey!». В кинотеатрах зал в ответ кричал и кидался попкорном.",
-    "difficulty": 2,
-    "hide": [
-      "chicken jockey"
-    ]
-  },
-  {
-    "slug": "labubu",
-    "category": "internet",
-    "kind": "meme",
-    "media": "image",
-    "query": "labubu pop mart",
-    "answer": "Labubu",
-    "note": "Клыкастая коллекционная игрушка Pop Mart. В 2025 стала вирусным трендом: её вешали на сумки и коллекционировали по всему миру.",
-    "difficulty": 2,
-    "hide": [
-      "labubu"
-    ]
-  },
-  {
-    "slug": "tralalero",
-    "category": "postirony",
-    "kind": "meme",
-    "media": "image",
-    "query": "tralalero tralala",
-    "answer": "Tralalero Tralala",
-    "note": "Акула в кроссовках Nike с итальянской озвучкой, один из первых героев «итальянского брейнрота» (2025). Герои сгенерированы нейросетью.",
-    "difficulty": 2,
-    "hide": [
-      "tralalero",
-      "tralala"
-    ]
-  },
-  {
-    "slug": "bombardiro",
-    "category": "postirony",
-    "kind": "meme",
-    "media": "image",
-    "query": "bombardiro crocodilo",
-    "answer": "Bombardiro Crocodilo",
-    "note": "Самолёт-бомбардировщик с головой крокодила из «итальянского брейнрота». В мемах он воюет с Тралалеро Тралала.",
-    "difficulty": 2,
-    "hide": [
-      "bombardiro",
-      "crocodilo",
-      "krokodilo"
-    ]
-  },
-  {
-    "slug": "ballerina-cappuccina",
-    "category": "postirony",
-    "kind": "meme",
-    "media": "gif",
-    "query": "ballerina cappuccina",
-    "answer": "Ballerina Cappuccina",
-    "note": "Балерина с чашкой капучино вместо головы. Типичный персонаж «итальянского брейнрота» 2025 года, который часто попадает в любовные треугольники.",
-    "difficulty": 2,
-    "hide": [
-      "ballerina cappuccina",
-      "cappuccina",
-      "capuchina"
-    ]
-  },
-  {
-    "slug": "tung-tung",
-    "category": "postirony",
-    "kind": "meme",
-    "media": "gif",
-    "query": "tung tung tung sahur",
-    "answer": "Tung Tung Tung Sahur",
-    "note": "Деревянный человечек с битой из «итальянского брейнрота». Название имитирует звук барабана, которым в Индонезии будят людей на сухур перед рассветом в Рамадан.",
-    "difficulty": 3,
-    "hide": [
-      "tung tung",
-      "sahur"
-    ]
-  },
-  {
-    "slug": "brunson",
-    "category": "nba",
-    "kind": "person",
-    "media": "gif",
-    "query": "jalen brunson",
-    "answer": "Jalen Brunson",
-    "note": "Джейлен Брансон, MVP финала НБА 2026: «Нью-Йорк» обыграл «Сан-Антонио» 4:1 и взял первый титул с 1973 года. Летом 2026 стал мемом из-за видео со свадьбы Донована Митчелла.",
-    "difficulty": 2
-  },
-  {
-    "slug": "wemby",
-    "category": "nba",
-    "kind": "person",
-    "media": "image",
-    "query": "victor wembanyama",
-    "answer": "Victor Wembanyama",
-    "note": "Виктор Вембаньяма, французский центровой «Сан-Антонио» и первый номер драфта 2023. Фанаты зовут его «инопланетянином».",
-    "difficulty": 2,
-    "hide": [
-      "wembanyama",
-      "wemby",
-      "victor"
-    ]
-  },
-  {
-    "slug": "adebayo",
-    "category": "nba",
-    "kind": "person",
-    "media": "image",
-    "query": "bam adebayo",
-    "answer": "Bam Adebayo",
-    "note": "Бэм Адебайо, который 10 марта 2026 набрал 83 очка в матче с «Вашингтоном»: второй результат в истории НБА после 100 очков Уилта Чемберлена.",
-    "difficulty": 2,
-    "hide": [
-      "adebayo",
-      "bam"
-    ]
-  },
-  {
-    "slug": "doncic",
-    "category": "nba",
-    "kind": "person",
-    "media": "gif",
-    "query": "luka doncic",
-    "answer": "Luka Doncic",
-    "note": "Лука Дончич, словенский разыгрывающий. Его фирменные броски называют «Luka Magic». С февраля 2025 играет за «Лейкерс» после громкого обмена на Энтони Дэвиса.",
-    "difficulty": 2
-  },
-  {
-    "slug": "curry",
-    "category": "nba",
-    "kind": "person",
-    "media": "image",
-    "query": "stephen curry",
-    "answer": "Stephen Curry",
-    "note": "Стеф Карри, разыгрывающий «Голден Стэйт» и один из лучших трёхочковых стрелков в истории.",
-    "difficulty": 1,
-    "hide": [
-      "curry",
-      "stephen",
-      "steph"
-    ]
-  },
-  {
-    "slug": "lebron",
-    "category": "nba",
-    "kind": "person",
-    "media": "gif",
-    "query": "lebron james",
-    "answer": "LeBron James",
-    "note": "ЛеБрон Джеймс, четырёхкратный чемпион НБА. В плей-офф 2026 его выражение лица в серии с «Хьюстоном» разошлось по сети мемом.",
-    "difficulty": 1,
-    "hide": [
-      "lebron",
-      "james",
-      "bron"
-    ]
-  },
-  {
-    "slug": "edwards",
-    "category": "nba",
-    "kind": "person",
-    "media": "image",
-    "query": "anthony edwards",
-    "answer": "Anthony Edwards",
-    "note": "Энтони Эдвардс по прозвищу Ant-Man, защитник «Миннесоты».",
-    "difficulty": 2,
-    "hide": [
-      "edwards",
-      "anthony",
-      "ant man",
-      "ant-man"
-    ]
-  },
-  {
-    "slug": "flagg",
-    "category": "nba",
-    "kind": "person",
-    "media": "gif",
-    "query": "cooper flagg",
-    "answer": "Cooper Flagg",
-    "note": "Купер Флэгг, первый номер драфта 2025 и новая звезда «Даллас Маверикс».",
-    "difficulty": 2,
-    "hide": [
-      "flagg",
-      "cooper"
-    ]
-  },
-  {
-    "slug": "cunningham-pointing",
-    "category": "wnba",
-    "kind": "meme",
-    "media": "gif",
-    "query": "sophie cunningham pointing",
-    "answer": "Sophie Cunningham Pointing",
-    "note": "Каннингем из «Индианы» около 22 секунд молча показывала пальцем на Деванну Боннер из «Финикса» в июне 2026. Клип стал реакцией «я тебя вижу».",
-    "difficulty": 2,
-    "hide": [
-      "cunningham",
-      "sophie"
-    ],
-    "wrong": [
-      "Caitlin Clark Logo Three",
-      "Angel Reese «You Can't See Me»",
-      "Paige Bueckers «Calm Down»"
-    ]
-  },
-  {
-    "slug": "clark",
-    "category": "wnba",
-    "kind": "person",
-    "media": "gif",
-    "query": "caitlin clark",
-    "answer": "Caitlin Clark",
-    "note": "Кейтлин Кларк, первый номер драфта WNBA 2024, «Индиана Фивер».",
-    "difficulty": 1
-  },
-  {
-    "slug": "reese",
-    "category": "wnba",
-    "kind": "person",
-    "media": "image",
-    "query": "angel reese",
-    "answer": "Angel Reese",
-    "note": "Анджел Риз, «Чикаго Скай», она же Bayou Barbie.",
-    "difficulty": 1
-  },
-  {
-    "slug": "bueckers",
-    "category": "wnba",
-    "kind": "person",
-    "media": "image",
-    "query": "paige bueckers",
-    "answer": "Paige Bueckers",
-    "note": "Пейдж Бакерс, первый номер драфта WNBA 2025, «Даллас Уингз».",
-    "difficulty": 2
-  },
-  {
-    "slug": "wilson",
-    "category": "wnba",
-    "kind": "person",
-    "media": "gif",
-    "query": "a'ja wilson",
-    "answer": "A'ja Wilson",
-    "note": "А'джа Уилсон, «Лас-Вегас Эйсес», чемпионка WNBA 2022 и 2023.",
-    "difficulty": 2,
-    "hide": [
-      "wilson",
-      "a'ja",
-      "aja"
-    ]
-  },
-  {
-    "slug": "ionescu",
-    "category": "wnba",
-    "kind": "person",
-    "media": "gif",
-    "query": "sabrina ionescu",
-    "answer": "Sabrina Ionescu",
-    "note": "Сабрина Ионеску, «Нью-Йорк Либерти»: набрала 37 из 40 в конкурсе трёхочковых WNBA 2023 и бросила вызов Карри.",
-    "difficulty": 2
-  },
-  {
-    "slug": "travis",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "gif",
-    "query": "travis scott",
-    "answer": "Travis Scott",
-    "note": "Трэвис Скотт. В 2020 у него был собственный сет в McDonald's, а «FE!N» с Playboi Carti разошёлся на мемы.",
-    "difficulty": 1,
-    "hide": [
-      "travis",
-      "scott"
-    ]
-  },
-  {
-    "slug": "kendrick",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "image",
-    "query": "kendrick lamar",
-    "answer": "Kendrick Lamar",
-    "note": "Кендрик Ламар, хедлайнер Super Bowl LIX (2025). Вместе с SZA получил Grammy 2026 за «Luther».",
-    "difficulty": 1,
-    "hide": [
-      "kendrick",
-      "lamar"
-    ]
-  },
-  {
-    "slug": "drake",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "gif",
-    "query": "drake rapper",
-    "answer": "Drake",
-    "note": "Дрейк. В мае 2026 выпустил «Iceman», и фанаты шутили, что он зарифмует название с «nice man».",
-    "difficulty": 1,
-    "hide": [
-      "drake"
-    ]
-  },
-  {
-    "slug": "carti",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "image",
-    "query": "playboi carti",
-    "answer": "Playboi Carti",
-    "note": "Playboi Carti, рэпер из Атланты. Его альбом «Music» (март 2025) дебютировал на первом месте Billboard 200.",
-    "difficulty": 2,
-    "hide": [
-      "carti",
-      "playboi"
-    ]
-  },
-  {
-    "slug": "uzi",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "gif",
-    "query": "lil uzi vert",
-    "answer": "Lil Uzi Vert",
-    "note": "Lil Uzi Vert, рэпер из Филадельфии, культовая фигура у зумеров.",
-    "difficulty": 2,
-    "hide": [
-      "uzi",
-      "lil uzi"
-    ]
-  },
-  {
-    "slug": "cardi",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "image",
-    "query": "cardi b",
-    "answer": "Cardi B",
-    "note": "Карди Би, автор фирменного «Okurrr».",
-    "difficulty": 1,
-    "hide": [
-      "cardi"
-    ]
-  },
-  {
-    "slug": "nicki",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "gif",
-    "query": "nicki minaj",
-    "answer": "Nicki Minaj",
-    "note": "Ники Минаж, её фанатов называют Barbz.",
-    "difficulty": 1,
-    "hide": [
-      "nicki",
-      "minaj"
-    ]
-  },
-  {
-    "slug": "tyler",
-    "category": "hiphop",
-    "kind": "person",
-    "media": "image",
-    "query": "tyler the creator",
-    "answer": "Tyler, the Creator",
-    "note": "Tyler, the Creator, автор альбома CHROMAKOPIA (2024).",
-    "difficulty": 2,
-    "hide": [
-      "tyler"
-    ]
-  },
-  {
-    "slug": "kehlani",
-    "category": "rnb",
-    "kind": "person",
-    "media": "gif",
-    "query": "kehlani",
-    "answer": "Kehlani",
-    "note": "Kehlani. Её «Folded» стала вирусным звуком 2025 года, а на Grammy 2026 принесла ей две награды.",
-    "difficulty": 2
-  },
-  {
-    "slug": "sza",
-    "category": "rnb",
-    "kind": "person",
-    "media": "image",
-    "query": "sza singer",
-    "answer": "SZA",
-    "note": "SZA. С Кендриком Ламаром получила Grammy 2026 за «Luther»; запись года из-за оговорки Шер стала мемом.",
-    "difficulty": 1,
-    "hide": [
-      "sza"
-    ]
-  },
-  {
-    "slug": "rihanna",
-    "category": "rnb",
-    "kind": "person",
-    "media": "gif",
-    "query": "rihanna",
-    "answer": "Rihanna",
-    "note": "Рианна. Фанаты годами мемят ожидание её альбома «R9».",
-    "difficulty": 1,
-    "hide": [
-      "rihanna"
-    ]
-  },
-  {
-    "slug": "beyonce",
-    "category": "rnb",
-    "kind": "person",
-    "media": "image",
-    "query": "beyonce",
-    "answer": "Beyoncé",
-    "note": "Бейонсе, героиня «Beychella» (Coachella 2018).",
-    "difficulty": 1,
-    "hide": [
-      "beyonce",
-      "beyoncé"
-    ]
-  },
-  {
-    "slug": "weeknd",
-    "category": "rnb",
-    "kind": "person",
-    "media": "gif",
-    "query": "the weeknd",
-    "answer": "The Weeknd",
-    "note": "The Weeknd, в эру After Hours выходил на публику с забинтованным лицом.",
-    "difficulty": 1,
-    "hide": [
-      "weeknd"
-    ]
-  },
-  {
-    "slug": "usher",
-    "category": "rnb",
-    "kind": "person",
-    "media": "image",
-    "query": "usher singer",
-    "answer": "Usher",
-    "note": "Usher, хедлайнер шоу в перерыве Super Bowl LVIII (2024).",
-    "difficulty": 1,
-    "hide": [
-      "usher"
-    ]
-  },
-  {
-    "slug": "leon-thomas",
-    "category": "rnb",
-    "kind": "person",
-    "media": "gif",
-    "query": "leon thomas",
-    "answer": "Leon Thomas",
-    "note": "Leon Thomas, чей альбом «Mutt» получил Grammy 2026 как лучший R&B-альбом.",
-    "difficulty": 3,
-    "hide": [
-      "thomas",
-      "leon"
-    ]
-  },
-  {
-    "slug": "mariah",
-    "category": "rnb",
-    "kind": "person",
-    "media": "image",
-    "query": "mariah carey",
-    "answer": "Mariah Carey",
-    "note": "Мэрайя Кэри и её «All I Want for Christmas Is You», которую мемят каждую зиму.",
-    "difficulty": 1,
-    "hide": [
-      "mariah",
-      "carey"
-    ]
-  }
+ {
+  "slug": "chicken-jockey",
+  "category": "internet",
+  "kind": "meme",
+  "media": "gif",
+  "query": "chicken jockey minecraft movie",
+  "answer": "Chicken Jockey",
+  "note": "Фраза из трейлера «Minecraft в кино» (2025): Джек Блэк в роли Стива объявляет «Chicken jockey!». В кинотеатрах зал в ответ кричал и кидался попкорном.",
+  "difficulty": 2,
+  "hide": [
+   "chicken jockey"
+  ],
+  "wrong": [
+   "Grimace Shake",
+   "Skibidi Toilet",
+   "«Creeper? Aw man»"
+  ]
+ },
+ {
+  "slug": "labubu",
+  "category": "internet",
+  "kind": "meme",
+  "media": "image",
+  "query": "labubu pop mart",
+  "answer": "Labubu",
+  "note": "Клыкастая коллекционная игрушка Pop Mart. В 2025 стала вирусным трендом: её вешали на сумки и коллекционировали по всему миру.",
+  "difficulty": 2,
+  "hide": [
+   "labubu"
+  ],
+  "wrong": [
+   "Sonny Angel",
+   "Smiski",
+   "Crybaby"
+  ]
+ },
+ {
+  "slug": "tralalero",
+  "category": "postirony",
+  "kind": "meme",
+  "media": "image",
+  "query": "tralalero tralala",
+  "answer": "Tralalero Tralala",
+  "note": "Акула в кроссовках Nike с итальянской озвучкой, один из первых героев «итальянского брейнрота» (2025). Герои сгенерированы нейросетью.",
+  "difficulty": 2,
+  "hide": [
+   "tralalero",
+   "tralala"
+  ]
+ },
+ {
+  "slug": "bombardiro",
+  "category": "postirony",
+  "kind": "meme",
+  "media": "image",
+  "query": "bombardiro crocodilo",
+  "answer": "Bombardiro Crocodilo",
+  "note": "Самолёт-бомбардировщик с головой крокодила из «итальянского брейнрота». В мемах он воюет с Тралалеро Тралала.",
+  "difficulty": 2,
+  "hide": [
+   "bombardiro",
+   "crocodilo",
+   "krokodilo"
+  ]
+ },
+ {
+  "slug": "ballerina-cappuccina",
+  "category": "postirony",
+  "kind": "meme",
+  "media": "gif",
+  "query": "ballerina cappuccina",
+  "answer": "Ballerina Cappuccina",
+  "note": "Балерина с чашкой капучино вместо головы. Типичный персонаж «итальянского брейнрота» 2025 года, который часто попадает в любовные треугольники.",
+  "difficulty": 2,
+  "hide": [
+   "ballerina cappuccina",
+   "cappuccina",
+   "capuchina"
+  ]
+ },
+ {
+  "slug": "tung-tung",
+  "category": "postirony",
+  "kind": "meme",
+  "media": "gif",
+  "query": "tung tung tung sahur",
+  "answer": "Tung Tung Tung Sahur",
+  "note": "Деревянный человечек с битой из «итальянского брейнрота». Название имитирует звук барабана, которым в Индонезии будят людей на сухур перед рассветом в Рамадан.",
+  "difficulty": 3,
+  "hide": [
+   "tung tung",
+   "sahur"
+  ]
+ },
+ {
+  "slug": "cunningham-pointing",
+  "category": "wnba",
+  "kind": "meme",
+  "media": "gif",
+  "query": "sophie cunningham pointing",
+  "answer": "Софи Каннингем показывает пальцем",
+  "note": "В конце июня 2026 в матче «Индианы» и «Финикса» Каннингем около 22 секунд молча указывала на Деванну Боннер. Клип стал шаблоном «я тебя вижу, ты сам знаешь, что сделал»: им реагируют на чужие косяки.",
+  "difficulty": 2,
+  "hide": [
+   "cunningham",
+   "pointing",
+   "sophie"
+  ],
+  "wrong": [
+   "Улыбка Кларк за спиной Риз",
+   "«You can't see me» Анджел Риз",
+   "«Calm down» Пейдж Бакерс"
+  ]
+ },
+ {
+  "slug": "crying-jordan",
+  "category": "nba",
+  "kind": "meme",
+  "media": "image",
+  "query": "crying jordan",
+  "answer": "Плачущий Джордан",
+  "note": "Снимок сделан 11 сентября 2009 на церемонии Зала славы: Джордан плакал, вспоминая карьеру. Мемом лицо стало позже, и им подписывают проигрыши и неудачи.",
+  "difficulty": 1,
+  "hide": [
+   "crying jordan",
+   "crying michael jordan",
+   "sad jordan"
+  ],
+  "wrong": [
+   "«Night night» Карри",
+   "Растерянный Ник Янг",
+   "«What?» Расселла Уэстбрука"
+  ]
+ }
 ]

@@ -25,6 +25,18 @@ def test_questions_file_is_valid_and_large_enough() -> None:
     assert min(counts.values()) >= 5
 
 
+def test_questions_are_about_memes_and_do_not_give_the_answer_away() -> None:
+    """Каждый вопрос про мем (откуда, что значит, как используют), а не про игроков и даты."""
+    for data in load_questions():
+        assert not data.question.startswith("Кто на этой"), data.slug
+        # Ответ не должен содержаться в тексте вопроса (иначе подсказка).
+        assert data.correct_answer.lower() not in data.question.lower(), data.slug
+        # Объяснение обязательно: после ответа игрок узнаёт историю мема.
+        assert len(data.explanation) >= 60, data.slug
+    counts = Counter(q.category for q in load_questions())
+    assert min(counts.values()) >= 5 and counts["hiphop"] >= 7
+
+
 def test_every_question_fits_telegram_photo_caption_limit() -> None:
     """У фото-сообщения подпись не длиннее 1024 символов: проверяем худший случай."""
     for data in load_questions():
