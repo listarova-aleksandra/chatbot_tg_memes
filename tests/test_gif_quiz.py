@@ -16,7 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from app.core.cache import TTLCache
 from app.core.exceptions import ApiUnavailableError
 from app.database.models import QuizQuestion
-from app.database.seed import seed_questions
+from app.database.seed import load_questions, seed_questions
 from app.services.giphy_service import GifCandidate, GiphyService
 from app.services.quiz_sources import (
     GifEntry, choose_candidate, hidden_words, load_gif_entries, pick_wrong_answers, question_text,
@@ -65,15 +65,25 @@ def cand(alt: str = "", user: str = "", still: bool = True, i: int = 0) -> GifCa
 
 def test_gif_file_is_valid_balanced_and_has_both_media_types() -> None:
     all_entries = load_gif_entries()
-    by_category = Counter(e.category for e in all_entries)
-    assert set(by_category) == {"nba", "wnba", "hiphop", "rnb", "internet", "postirony"}
-    assert min(by_category.values()) >= 4
+    # Картинки и GIF нужны только там, где сам мем визуальный. Остальные категории
+    # (хип-хоп, R&B) строятся на текстовых вопросах про мемы.
+    assert {e.category for e in all_entries} <= {"nba", "wnba", "internet", "postirony"}
     media = Counter(e.media for e in all_entries)
-    assert media["gif"] >= 10 and media["image"] >= 10  # не только GIF, но и обычные картинки
+    assert media["gif"] >= 3 and media["image"] >= 3  # не только GIF, но и обычные картинки
     for e in all_entries:
         wrong = pick_wrong_answers(e, all_entries)
         assert len(wrong) == 3 and len({e.answer, *wrong}) == 4, e.slug
         assert wrong == pick_wrong_answers(e, all_entries)  # стабильно между запусками
+
+
+def test_gif_questions_are_about_memes_not_about_people() -> None:
+    """Викторина про мемы: вопросов «Кто на этой GIF?» (угадай игрока или артиста) быть не должно."""
+    for e in load_gif_entries():
+        assert e.kind == "meme", e.slug
+    # Спортивные мемы обязаны иметь правдоподобные варианты, а не названия из других категорий.
+    for e in load_gif_entries():
+        if e.category in ("nba", "wnba"):
+            assert e.wrong is not None, e.slug
 
 
 def test_every_note_fits_caption_limit_with_question() -> None:
@@ -243,7 +253,7 @@ async def test_disabled_giphy_does_nothing_and_retire_source(session: AsyncSessi
     await retire_source(session, "imgflip")
     rows = {q.slug: q for q in await session.scalars(select(QuizQuestion))}
     assert rows["imgflip-1"].is_active is False
-    assert sum(1 for q in rows.values() if q.source == "local" and q.is_active) == 32
+    assert sum(1 for q in rows.values() if q.source == "local" and q.is_active) == len(load_questions())
 
 
 # ---------- В игре ----------
