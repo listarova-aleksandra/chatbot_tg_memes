@@ -18,6 +18,20 @@ logger = logging.getLogger(__name__)
 
 
 
+async def safe_answer(callback: CallbackQuery, text: str | None = None, *, show_alert: bool = False) -> None:
+    """Отвечает на нажатие кнопки. Если Telegram уже не принимает ответ, это не ошибка.
+
+    На callback нужно ответить в течение ~15 секунд. Если мы слишком долго ждали внешний API,
+    Telegram отвечает «query is too old»: экран при этом уже показан, поэтому просто идём дальше.
+    """
+    try:
+        await callback.answer(text, show_alert=show_alert)
+    except TelegramBadRequest as error:
+        if "query is too old" not in str(error) and "query ID is invalid" not in str(error):
+            raise
+        logger.debug("Ответ на callback не принят (слишком поздно): %s", error)
+
+
 def is_animation(url: str) -> bool:
     """GIF (в том числе с Giphy) отправляется как анимация, остальное как фото."""
     parsed = urlparse(url)
@@ -65,7 +79,7 @@ async def show_screen(
     if not isinstance(message, Message):
         # Сообщение слишком старое и недоступно боту: пишем в личку заново.
         await event.bot.send_message(event.from_user.id, text, reply_markup=reply_markup)
-        await event.answer()
+        await safe_answer(event)
         return
 
     has_media = bool(message.photo or message.animation)
@@ -82,7 +96,7 @@ async def show_screen(
         await _send(message, text, reply_markup, media)
 
     # Обязательно «отвечаем» на callback, иначе у кнопки крутится часики.
-    await event.answer()
+    await safe_answer(event)
 
 
 async def _edit(

@@ -21,7 +21,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.bot import texts, texts_quiz
 from app.bot.callbacks import MenuCB, QuizCB
-from app.bot.helpers import show_screen
+from app.bot.helpers import safe_answer, show_screen
 from app.bot.keyboards.quiz import answer_kb, category_kb, finished_kb, next_kb
 from app.bot.states.quiz import QuizStates
 from app.database.models import QuizCategory, User
@@ -97,6 +97,9 @@ async def _show_question(
 
     media: str | BufferedInputFile | None = question.image_url
     if media and question.media_type == "image":
+        # Скачивание картинки может занять несколько секунд, а на нажатие кнопки Telegram
+        # ждёт ответ ~15 секунд. Отвечаем сразу, чтобы часики пропали и запрос не протух.
+        await safe_answer(callback)
         # «Обычная картинка»: бот сам скачивает кадр, делает из него JPEG и отправляет как фото.
         # Если не вышло, отправляется ссылка как есть (при неудаче покажется вопрос без картинки).
         jpeg = await giphy.get_image_jpeg(media)

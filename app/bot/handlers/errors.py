@@ -11,6 +11,7 @@ from aiogram import Router
 from aiogram.types import ErrorEvent
 
 from app.bot import texts
+from app.bot.helpers import safe_answer
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ async def on_error(event: ErrorEvent) -> bool:
     )
     try:
         if update.callback_query is not None:
-            await update.callback_query.answer(texts.GENERIC_ERROR, show_alert=True)
+            await safe_answer(update.callback_query, texts.GENERIC_ERROR, show_alert=True)
         elif update.message is not None:
             await update.message.answer(texts.GENERIC_ERROR)
     except Exception:

@@ -36,6 +36,7 @@ RESULTS_LIMIT = 25
 CACHE_TTL_SECONDS = 60 * 60
 EMPTY_CACHE_TTL_SECONDS = 10 * 60  # «ничего не найдено» запоминаем ненадолго
 GIPHY_ATTEMPTS = 2  # GIF не критична: ждём меньше, чем для остальных API
+IMAGE_ATTEMPTS = 1  # картинка вопроса: игрок ждёт здесь и сейчас, повторы только затянут ожидание
 
 # Статусы результата
 OK, EMPTY, UNAVAILABLE, DISABLED = "ok", "empty", "unavailable", "disabled"
@@ -227,7 +228,10 @@ class GiphyService:
         if cached is not None:
             return cached
         try:
-            raw = await self.client.request_bytes(self.name, still_url, max_bytes=MAX_IMAGE_BYTES)  # type: ignore[union-attr]
+            # Одна попытка: игрок ждёт вопрос прямо сейчас. Не вышло, покажем вопрос без картинки.
+            raw = await self.client.request_bytes(  # type: ignore[union-attr]
+                self.name, still_url, max_bytes=MAX_IMAGE_BYTES, attempts=IMAGE_ATTEMPTS
+            )
             # Pillow работает с пикселями синхронно: выносим в поток, чтобы не блокировать бота.
             jpeg = await asyncio.to_thread(still_to_jpeg, raw)
         except ApiError as error:

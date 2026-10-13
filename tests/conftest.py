@@ -71,6 +71,7 @@ class FakeTelegramSession(BaseSession):
         super().__init__()
         self.calls: list[Any] = []
         self.fail_photos = False  # True: Telegram «не смог загрузить картинку по URL»
+        self.callback_error: str | None = None  # текст ошибки на answerCallbackQuery («query is too old»)
         self.file_bytes = b""  # что «скачает» bot.download() (фото, присланное пользователем)
 
     async def close(self) -> None:
@@ -97,6 +98,8 @@ class FakeTelegramSession(BaseSession):
                 photo=photo,
             )
         if isinstance(method, AnswerCallbackQuery):
+            if self.callback_error:
+                raise TelegramBadRequest(method=method, message=f"Bad Request: {self.callback_error}")
             return True
         return True
 
