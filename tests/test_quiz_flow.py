@@ -44,9 +44,9 @@ class Player:
     async def send(self, text: str) -> None:
         await self.dp.feed_raw_update(self.bot, message_update(text, self._next_id()))
 
-    async def press(self, callback_data: str, *, photo: bool = False) -> None:
+    async def press(self, callback_data: str, *, photo: bool = False, message_id: int = 7) -> None:
         await self.dp.feed_raw_update(
-            self.bot, callback_update(callback_data, self._next_id(), photo=photo)
+            self.bot, callback_update(callback_data, self._next_id(), photo=photo, message_id=message_id)
         )
 
     def fsm(self) -> FSMContext:

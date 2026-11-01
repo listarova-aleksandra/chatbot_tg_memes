@@ -13,7 +13,7 @@
 import logging
 
 from aiogram import F, Router
-from aiogram.exceptions import TelegramBadRequest
+from aiogram.exceptions import TelegramAPIError
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import BufferedInputFile, CallbackQuery, Message
@@ -126,7 +126,8 @@ async def handle_answer(
 ) -> None:
     data = await state.get_data()
     options: list[str] = data.get("options", [])
-    choice = int(callback_data.value) if callback_data.value.isdigit() else -1
+    # isdecimal, а не isdigit: «²» считается цифрой, но int("²") падает.
+    choice = int(callback_data.value) if callback_data.value.isdecimal() else -1
 
     # Кнопка от другого вопроса или невозможный номер варианта: игнорируем.
     if callback_data.q != data["index"] or not 0 <= choice < len(options):
@@ -197,13 +198,16 @@ async def _send_reaction_gif(callback: CallbackQuery, giphy: GiphyService, resul
         return
     gif = await giphy.get_reaction(mood, result.category)
     chat_id = callback.from_user.id  # игра идёт в личном чате, id чата равен id пользователя
-    if gif.status == UNAVAILABLE:
-        await callback.bot.send_message(chat_id, texts.GIF_UNAVAILABLE)
-    elif gif.url is not None:
-        try:
+    # GIF это украшение. Любая ошибка Telegram здесь (не принял GIF, сеть, лимит сообщений)
+    # не должна откатить уже показанный результат игры: транзакция фиксируется после хендлера,
+    # и необработанное исключение отменило бы XP и достижения.
+    try:
+        if gif.status == UNAVAILABLE:
+            await callback.bot.send_message(chat_id, texts.GIF_UNAVAILABLE)
+        elif gif.url is not None:
             await callback.bot.send_animation(chat_id, gif.url)
-        except TelegramBadRequest as error:
-            logger.warning("Telegram не принял GIF: %s", error)
+    except TelegramAPIError as error:
+        logger.warning("Не удалось отправить GIF-реакцию: %s", error)
 
 
 # ---------- Всё остальное: устаревшие кнопки ----------

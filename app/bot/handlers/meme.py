@@ -202,8 +202,20 @@ async def _render_preview(message: Message, state: FSMContext, bot: Bot, imgflip
         BufferedInputFile(jpeg, filename="meme.jpg"), caption=texts_meme.PREVIEW, reply_markup=preview_kb()
     )
     # Telegram вернул file_id отправленного фото: по нему мем можно показывать снова.
-    await state.update_data(preview_file_id=sent.photo[-1].file_id)
+    # id сообщения запоминаем, чтобы кнопки старого превью (до «Заново» или нового /meme)
+    # не опубликовали вместо него текущий мем.
+    await state.update_data(preview_file_id=sent.photo[-1].file_id, preview_message_id=sent.message_id)
     await state.set_state(MemeStates.preview)
+
+
+def _is_current_preview(callback: CallbackQuery, data: dict) -> bool:
+    """Кнопка нажата под последним показанным превью, а не под старым."""
+    message = callback.message
+    return (
+        bool(data.get("preview_file_id"))
+        and isinstance(message, Message)
+        and message.message_id == data.get("preview_message_id")
+    )
 
 
 @router.callback_query(MemeStates.preview, MemeCB.filter(F.action.in_({"publish", "save"})))
@@ -211,8 +223,8 @@ async def save_meme(
     callback: CallbackQuery, callback_data: MemeCB, state: FSMContext, user: User, session: AsyncSession
 ) -> None:
     data = await state.get_data()
-    if not data.get("preview_file_id"):
-        # Одновременное двойное нажатие: первый обработчик уже сохранил мем и очистил данные.
+    if not _is_current_preview(callback, data):
+        # Кнопка старого превью или повторное нажатие (первое уже сохранило мем и очистило данные).
         await callback.answer(texts_meme.STALE, show_alert=True)
         return
     publish = callback_data.action == "publish"
@@ -228,6 +240,9 @@ async def save_meme(
 
 @router.callback_query(MemeStates.preview, MemeCB.filter(F.action == "redo"))
 async def redo(callback: CallbackQuery, state: FSMContext) -> None:
+    if not _is_current_preview(callback, await state.get_data()):
+        await callback.answer(texts_meme.STALE, show_alert=True)
+        return
     await state.update_data(top_text="", bottom_text="", preview_file_id=None)
     await state.set_state(MemeStates.waiting_top)
     if isinstance(callback.message, Message):
@@ -240,7 +255,8 @@ async def redo(callback: CallbackQuery, state: FSMContext) -> None:
 async def publish_saved(
     callback: CallbackQuery, callback_data: MemeCB, user: User, session: AsyncSession
 ) -> None:
-    if not callback_data.value.isdigit():
+    # isdecimal, а не isdigit: «²» считается цифрой, но int("²") падает. Верхняя граница: id в БД это int4.
+    if not callback_data.value.isdecimal() or int(callback_data.value) >= 2**31:
         await callback.answer(texts_meme.ALREADY_PUBLISHED, show_alert=True)
         return
     try:

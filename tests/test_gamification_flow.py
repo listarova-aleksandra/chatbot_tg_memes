@@ -99,7 +99,7 @@ async def test_meme_lord_is_announced_when_saving_the_tenth_meme(bot, telegram, 
             await MemeService(s).create_meme(user, f"m{i}", None, "а", "б", publish=False)
         await s.commit()
     await to_preview(p)
-    await p.press(MemeCB(action="save").pack(), photo=True)
+    await p.press_preview("save")
     assert "Meme Lord" in p.last_text() and "Новое достижение" in p.last_text()
 
 
