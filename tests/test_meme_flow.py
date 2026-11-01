@@ -45,6 +45,11 @@ class MemePlayer(Player):
     def last_preview(self) -> SendPhoto:
         return [p for p in self.telegram.of_type(SendPhoto) if isinstance(p.photo, BufferedInputFile)][-1]
 
+    async def press_preview(self, action: str) -> None:
+        """Нажать кнопку под последним показанным превью (как это сделал бы человек)."""
+        message_id = self.telegram.message_ids[id(self.last_preview())]
+        await self.press(MemeCB(action=action).pack(), photo=True, message_id=message_id)
+
     async def memes(self) -> list[Meme]:
         async with self.session_factory() as s:
             return list((await s.execute(select(Meme))).scalars())
@@ -95,7 +100,7 @@ async def test_full_flow_template_to_publication(bot, telegram, session_factory,
     assert image.format == "JPEG" and image.size == (400, 300)  # готовая картинка, не оригинал
     assert keyboard_labels(preview) == ["📢 Опубликовать", "💾 Сохранить", "🔄 Заново", "❌ Отмена"]
 
-    await p.press(MemeCB(action="publish").pack(), photo=True)
+    await p.press_preview("publish")
     assert await p.state() is None
     assert "Мем опубликован" in p.last_text() and "+10 XP" in p.last_text()
     [meme] = await p.memes()
@@ -110,7 +115,7 @@ async def test_full_flow_template_to_publication(bot, telegram, session_factory,
 async def test_save_then_publish_later(bot, telegram, session_factory, make_dispatcher) -> None:
     p = make(bot, telegram, session_factory, make_dispatcher)
     await to_preview(p)
-    await p.press(MemeCB(action="save").pack(), photo=True)
+    await p.press_preview("save")
     [meme] = await p.memes()
     assert not meme.is_published and (await p.db_user()).xp == 5
     assert "+5 XP" in p.last_text()
@@ -125,8 +130,8 @@ async def test_save_then_publish_later(bot, telegram, session_factory, make_disp
 async def test_double_tap_on_publish_creates_one_meme(bot, telegram, session_factory, make_dispatcher) -> None:
     p = make(bot, telegram, session_factory, make_dispatcher)
     await to_preview(p)
-    await p.press(MemeCB(action="publish").pack(), photo=True)
-    await p.press(MemeCB(action="publish").pack(), photo=True)
+    await p.press_preview("publish")
+    await p.press_preview("publish")
     assert len(await p.memes()) == 1 and (await p.db_user()).xp == 10
     assert p.last_alert().show_alert is True
 
@@ -143,7 +148,7 @@ async def test_own_photo_flow(bot, telegram, session_factory, make_dispatcher) -
     await p.send("только низ")
     image = Image.open(io.BytesIO(p.last_preview().photo.data))
     assert image.size == (600, 900)
-    await p.press(MemeCB(action="save").pack(), photo=True)
+    await p.press_preview("save")
     [meme] = await p.memes()
     assert meme.template_name is None and meme.top_text == "" and meme.bottom_text == "ТОЛЬКО НИЗ".lower()
 
@@ -212,12 +217,12 @@ async def test_unreadable_image_asks_for_another_photo(bot, telegram, session_fa
 async def test_redo_returns_to_top_text_and_new_preview_replaces_old(bot, telegram, session_factory, make_dispatcher) -> None:
     p = make(bot, telegram, session_factory, make_dispatcher)
     await to_preview(p, "первый", "вариант")
-    await p.press(MemeCB(action="redo").pack(), photo=True)
+    await p.press_preview("redo")
     assert await p.state() == MemeStates.waiting_top.state
     await p.send("второй")
     await p.send("вариант")
     assert await p.state() == MemeStates.preview.state
-    await p.press(MemeCB(action="publish").pack(), photo=True)
+    await p.press_preview("publish")
     [meme] = await p.memes()
     assert meme.top_text == "второй"  # в БД второй вариант
 
@@ -283,7 +288,7 @@ async def test_imgflip_down_shows_fallback_templates_and_flow_still_works(bot, t
     await p.send("низ")
     image = Image.open(io.BytesIO(p.last_preview().photo.data))
     assert image.size == (800, 600)  # нарисован на градиентном фоне
-    await p.press(MemeCB(action="publish").pack(), photo=True)
+    await p.press_preview("publish")
     assert len(await p.memes()) == 1
 
 

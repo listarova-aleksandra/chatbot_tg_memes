@@ -72,6 +72,7 @@ class FakeTelegramSession(BaseSession):
         self.calls: list[Any] = []
         self.fail_photos = False  # True: Telegram «не смог загрузить картинку по URL»
         self.callback_error: str | None = None  # текст ошибки на answerCallbackQuery («query is too old»)
+        self.message_ids: dict[int, int] = {}  # id(метода) -> message_id отправленного сообщения
         self.file_bytes = b""  # что «скачает» bot.download() (фото, присланное пользователем)
 
     async def close(self) -> None:
@@ -90,6 +91,7 @@ class FakeTelegramSession(BaseSession):
             number = len(self.calls)
             photo = [PhotoSize(file_id=f"fid-{number}", file_unique_id=f"uid-{number}", width=1, height=1)] \
                 if isinstance(method, SendPhoto) else None
+            self.message_ids[id(method)] = number + 1000
             return Message(
                 message_id=number + 1000,
                 date=datetime.now(),

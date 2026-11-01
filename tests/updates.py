@@ -17,10 +17,10 @@ def message_update(text: str, update_id: int = 1) -> dict[str, Any]:
     return update
 
 
-def callback_update(data: str, update_id: int = 2, *, photo: bool = False) -> dict[str, Any]:
+def callback_update(data: str, update_id: int = 2, *, photo: bool = False, message_id: int = 7) -> dict[str, Any]:
     """photo=True: кнопка нажата под сообщением-фото (вопрос с картинкой)."""
     message: dict[str, Any] = {
-        "message_id": 7,
+        "message_id": message_id,
         "date": 0,
         "chat": CHAT,
         "from": {**FROM, "is_bot": True},

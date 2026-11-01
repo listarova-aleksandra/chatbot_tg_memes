@@ -16,14 +16,26 @@ _SECRET_PATTERNS = [
 ]
 
 
+def redact(text: str) -> str:
+    for pattern, replacement in _SECRET_PATTERNS:
+        text = pattern.sub(replacement, text)
+    return text
+
+
 class RedactSecretsFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
-        message = record.getMessage()
-        for pattern, replacement in _SECRET_PATTERNS:
-            message = pattern.sub(replacement, message)
         # Подменяем уже отформатированное сообщение и сбрасываем аргументы.
-        record.msg = message
+        record.msg = redact(record.getMessage())
         record.args = ()
+        # Текст трассировки тоже может содержать секрет: например, ошибка скачивания файла
+        # печатает URL вида .../file/bot<ТОКЕН>/... Готовим его заранее и маскируем:
+        # Formatter использует готовый record.exc_text, а не форматирует исключение заново.
+        if record.exc_info and not record.exc_text:
+            record.exc_text = logging.Formatter().formatException(record.exc_info)
+        if record.exc_text:
+            record.exc_text = redact(record.exc_text)
+        if record.stack_info:
+            record.stack_info = redact(record.stack_info)
         return True
 
 

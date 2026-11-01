@@ -4,7 +4,7 @@
 """
 
 from aiogram import Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.memory import MemoryStorage, SimpleEventIsolation
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.bot.handlers import common, community, daily, errors, gamification, meme, profile, quiz, settings
@@ -31,7 +31,20 @@ def build_dispatcher(
     # по имени параметра. Так в aiogram устроено внедрение зависимостей (DI).
     # Сервисы внешних API создаются один раз в main.py и передаются сюда: хендлер просто
     # объявляет параметр `giphy: GiphyService`, и aiogram подставляет объект.
-    dp = Dispatcher(storage=MemoryStorage(), settings=app_settings, giphy=giphy, reddit=reddit, imgflip=imgflip)
+    #
+    # SimpleEventIsolation: апдейты ОДНОГО пользователя обрабатываются строго по очереди
+    # (апдейты разных пользователей по-прежнему параллельно). Иначе двойное нажатие на
+    # «Дальше» или категорию запустило бы хендлер дважды одновременно: оба нажатия успели бы
+    # пройти фильтр состояния, пока первое ждёт БД. Блокировка захватывается до наших
+    # middleware, поэтому второе нажатие видит уже сохранённый (commit) результат первого.
+    dp = Dispatcher(
+        storage=MemoryStorage(),
+        events_isolation=SimpleEventIsolation(),
+        settings=app_settings,
+        giphy=giphy,
+        reddit=reddit,
+        imgflip=imgflip,
+    )
 
     # Порядок важен: сначала сессия БД, потом пользователь (ему нужна сессия).
     dp.update.outer_middleware(DbSessionMiddleware(session_factory))
@@ -42,8 +55,11 @@ def build_dispatcher(
     dp.include_router(profile.router)
     dp.include_router(quiz.router)
     dp.include_router(daily.router)
-    dp.include_router(meme.router)
     dp.include_router(community.router)
     dp.include_router(gamification.router)
     dp.include_router(settings.router)
+    # Роутер мемов последний: у него есть «ловушки» на любое сообщение во время создания мема
+    # («пришли текст», «нужно фото»). Если бы он стоял раньше, команда /top посреди сценария
+    # попала бы в ловушку, а не в свой хендлер.
+    dp.include_router(meme.router)
     return dp
